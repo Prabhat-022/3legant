@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './src/routes/userRoutes.js';
 import productRoutes from './src/routes/productRoutes.js';
 import connectDB from './src/db/dbConfig.js';
+import path from 'path';
 
 
 
@@ -16,6 +17,7 @@ const app = express();
 connectDB();
 
 const port = process.env.PORT || 6000;
+const __dirname = path.resolve();
 
 // For parsing application/json
 app.use(express.json());
@@ -32,6 +34,11 @@ app.use(cors({
 // Create API
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/dist/index.html'));
+})
 
 app.listen(port, () => {
     console.log(`Index server ${port}`);
