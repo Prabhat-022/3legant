@@ -26,12 +26,12 @@ const Product = () => {
             <div className="">
                 <div className="w-full flex gap-2 ">
                     <div className="w-1/2 flex gap-2 flex-wrap m-4 p-4">
-                        <img src={image[0].url} alt="" className='w-[250px] h-[300px] ' />
-                        <img src={image[1].url} alt="" className='w-[250px] h-[300px] ' />
-                        <img src={image[2].url} alt="" className='w-[250px] h-[300px] ' />
-                        <img src={image[3].url} alt="" className='w-[250px] h-[300px] ' />
-                        <img src={image[4].url} alt="" className='w-[250px] h-[300px] ' />
-                        <img src={image[5].url} alt="" className='w-[250px] h-[300px] ' />
+                        <img src={image[0].url} alt="" className='w-[200px] h-[250px] ' />
+                        <img src={image[1].url} alt="" className='w-[200px] h-[250px] ' />
+                        <img src={image[2].url} alt="" className='w-[200px] h-[250px] ' />
+                        <img src={image[3].url} alt="" className='w-[200px] h-[250px] ' />
+                        <img src={image[4].url} alt="" className='w-[200px] h-[250px] ' />
+                        <img src={image[5].url} alt="" className='w-[200px] h-[250px] ' />
 
                     </div>
 

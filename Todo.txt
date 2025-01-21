@@ -1,9 +1,10 @@
 1) store the multiple image in database.
 2) app the chart in react js
-3) fix the flyout cart refresh issue
+3) fix the flyout cart refresh issue 
 4) fix living cart in homepage desine issue
 5) fix login either admin or user
 6) protected routes 
 7) store cookies 
+8) Add docker file
 
 

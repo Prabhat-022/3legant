@@ -11,7 +11,14 @@ const ProductCart = ({ product }) => {
 
 
     const handleSingleProduct = (item) => {
-        navigate('/product-details')
+        if (item === undefined) return
+
+        if (item) {
+            navigate('/product-details')
+        }else{
+            navigate('/')
+        }
+
         dispatch(setSingleProduct(item))
     }
 
@@ -22,8 +29,8 @@ const ProductCart = ({ product }) => {
     const handleaddtocart = (e) => {
 
         e.preventDefault();
-        dispatch(addToCart({product, productId: product._id, quantity: 1 }));
-        
+        dispatch(addToCart({ product, productId: product._id, quantity: 1 }));
+
     }
     return (
         <>

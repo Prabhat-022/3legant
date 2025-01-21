@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import { IoSearchOutline } from "react-icons/io5";
 import admin from '../../assets/admin.jpg'
 import { FaAngleDown } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const AdminHeader = () => {
+    const loginUser = useSelector(state => state.user?.loginuser)
     return (
         <>
             <div className="">
@@ -19,10 +21,10 @@ const AdminHeader = () => {
                     </div>
 
                     <div className="flex gap-2 items-center justify-between mx-2">
-                        <img src={admin} alt="" className='w-[45px] h-[45px] rounded-full' />
+                        <img src={admin}   alt="" className='w-[45px] h-[45px] rounded-full' />
 
                         <div className="">
-                            <h1>Moni Roy</h1>
+                            <h1>{loginUser?.fullName || "Mony Roy"}</h1>
                             <p>Admin</p>
                         </div>
                         <FaAngleDown />

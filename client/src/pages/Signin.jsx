@@ -6,16 +6,16 @@ import { setloginUser } from "../redux/userSlice";
 import { useDispatch } from 'react-redux'
 
 const Signin = () => {
+
   const [loginUser, setLoginUser] = useState({
     email: "",
     password: "",
     role: "",
-  })
+  });
+
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -33,19 +33,29 @@ const Signin = () => {
 
       if (res.data.success) {
         dispatch(setloginUser(res.data.user))
+        localStorage.setItem('user', JSON.stringify(res.data.user))
         setLoginUser("")
         setLoading(false)
-        navigate('/')
+
+        if (res.data.user.role === "admin") {
+
+          navigate('/admin')
+          setLoading(false)
+        } else {
+          navigate('/')
+          setLoading(false)
+        }
+
       }
+
 
     } catch (error) {
       console.log('Login failed:', error)
       setLoading(false)
     }
   }
-  const handleRoleChange = (e) => {
-    setloginUser({ ...loginUser, role: e.target.value })
-  }
+
+
 
   return (
     <>
@@ -62,7 +72,7 @@ const Signin = () => {
               <p className="text-[#64748b]">
                 Don&apos;t have an account yet?
                 <span className="text-green-600 text-bold  cursor-pointer px-2">
-                  <Link to={'/'}>Sign up</Link>
+                  <Link to={'/signup'}>Sign up</Link>
                 </span></p>
 
 
@@ -73,10 +83,10 @@ const Signin = () => {
               <div className="flex gap-4 ">
 
                 <div className=" flex gap-2 items-center justify-center">
-                  <input type="radio" name="role" id="admin" value="admin" onChange={handleRoleChange} checked={loginUser.role === "admin"} />
+                  <input type="radio" name="role" id="admin" value="admin" onChange={(e) => setLoginUser({ ...loginUser, role: e.target.value })} checked={loginUser.role === "admin"} />
                   <p>Admin</p>
 
-                  <input type="radio" name="role" id="user" value="user" onChange={handleRoleChange} checked={loginUser.role === "user"} />
+                  <input type="radio" name="role" id="user" value="user" onChange={(e) => setLoginUser({ ...loginUser, role: e.target.value })} checked={loginUser.role === "user"} />
                   <p>User</p>
                 </div>
 

@@ -49,7 +49,7 @@ const Signup = () => {
                 dispatch(setloginUser(user))
                 setUser("")
                 setLoading(false)
-                navigate('/singin')
+                navigate('/signin')
             }
 
         } catch (error) {
@@ -79,7 +79,7 @@ const Signup = () => {
                                 <span className="text-green-600 text-bold px-2 cursor-pointer">
                                     <Link to={'/signin'}>
                                         Sing in
-
+                                        
                                     </Link>
                                 </span></p>
 

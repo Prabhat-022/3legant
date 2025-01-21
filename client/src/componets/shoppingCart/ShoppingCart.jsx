@@ -130,7 +130,6 @@ const ShoppingCart = () => {
                     </div>
                 </div>
             </div>
-
             <Footer />
 
         </>

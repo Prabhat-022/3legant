@@ -10,6 +10,7 @@ const CartNavigation = () => {
 
     return (
         <>
+      
             <div className="flex justify-center items-center">
                 <div className={`${active ? "flex gap-2 m-2 items-center justify-center underline underline-offset-8 " : ""}`} onClick={() => handleclick()}>
 
@@ -18,7 +19,7 @@ const CartNavigation = () => {
                             <h1 className="">1</h1>
 
                         </div>
-                        <Link to={'/shopping-cart'}>Shopping cart</Link>
+                        <Link to={'/cart'}>Shopping cart</Link>
                     </div>
                 </div>
 
@@ -29,7 +30,7 @@ const CartNavigation = () => {
                         <h1 className="">2</h1>
 
                     </div>
-                    <Link to={'/checkout'}>checkout details</Link>
+                    <Link to={'CheckoutDetails'}>checkout details</Link>
                 </div>
 
                 {/* <div className="flex gap-2 m-2 items-center justify-center"> */}
@@ -39,7 +40,7 @@ const CartNavigation = () => {
                         <h1 className="">3</h1>
 
                     </div>
-                    <Link to={'/order-completed'}>order completed</Link>
+                    <Link to={'OrderCompleted'}>order completed</Link>
                 </div>
             </div>
 

@@ -12,7 +12,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState(false)
   const loginUser = useSelector(state => state.user?.loginuser)
-
+  const localUser = JSON.parse(localStorage.getItem('user'))
+  console.log('localUser', localUser)
 
   const product = useSelector(state => state.cart?.cart)
 
@@ -32,8 +33,11 @@ const Header = () => {
 
           <div className="flex gap-10">
             <NavLink to={"/"} className={(isActive) => isActive ? "text-black border-b-[2px]" : "text-gray-500"}>Home</NavLink>
+
             <NavLink to={"/shop"} className={(isActive) => (isActive ? "text-black" : "text-gray-500")}>Shop</NavLink>
+
             <NavLink to={"/product-details"} className={(isActive) => (isActive ? "text-black" : "text-gray-500")}>Product</NavLink>
+
             <NavLink to={"/contact"} className={(isActive) => (isActive ? "text-black" : "text-gray-500")}>Contact Us</NavLink>
 
           </div>
@@ -50,7 +54,7 @@ const Header = () => {
 
             </div>
             <div className="flex gap-2">
-              <Link to={"/user-profile"} className='cursor-pointer'><CgProfile size={25} /></Link>
+              <Link to={loginUser?.role === "admin" ? "/admin" : "/"} className='cursor-pointer'><CgProfile size={25} /></Link>
               <p>{loginUser?.fullName}</p>
             </div>
           </div>

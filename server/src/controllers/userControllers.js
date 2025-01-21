@@ -46,14 +46,14 @@ export const Login = async (req, res) => {
 
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
 
-        const userResponse = {
-            _id: user._id,
-            fullName: user.fullName,
-            userName: user.userName,
-            email: user.email,
-            avatar: user.avatar
+        // const userResponse = {
+        //     _id: user._id,
+        //     fullName: user.fullName,
+        //     userName: user.userName,
+        //     email: user.email,
+        //     avatar: user.avatar
 
-        };
+        // };
 
         return res.status(200)
             .cookie("token", token, {
@@ -65,7 +65,7 @@ export const Login = async (req, res) => {
                 message: "Login successful",
                 success: true,
                 token,
-                user: userResponse
+                user
             });
 
     } catch (error) {
@@ -132,7 +132,6 @@ export const Register = async (req, res) => {
         });
     }
 };
-
 
 
 export const logOut = async (req, res) => {

@@ -61,7 +61,7 @@ const FlyoutCart = () => {
                     </table>
 
                     <button className="bg-black text-white p-3 rounded-full w-full">Checkout</button>
-                    <Link to={'/shopping-cart'} className="underline cursor-pointer w-full p-3 text-center">View Cart</Link>
+                    <Link to={'/cart'} className="underline cursor-pointer w-full p-3 text-center">View Cart</Link>
                 </div>
             </div>
 
