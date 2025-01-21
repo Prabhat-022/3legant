@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <>
       <div className="">
-        <div className="flex justify-between items-center mx-24 m-4 px-6">
+        <div className="flex justify-between items-center mx-24 m-4 px-6 ">
 
           <div className="">
             <Link to={"/"} className='text-3xl font-bold'>3legant</Link>
