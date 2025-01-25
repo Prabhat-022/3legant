@@ -3,22 +3,58 @@ import { FaAngleRight } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/cartSlice';
+import { RiSubtractFill } from "react-icons/ri";
+import { FiPlus } from "react-icons/fi";
+import { useState } from "react";
+import axios from "axios";
 
 const Product = () => {
+    const [quantity, setQuantity] = useState(1);
 
-    const product = { productId: 145215452, quantity: 1 };
-    const { productId, quantity } = product;
     const productDetails = useSelector((state) => state.products?.singleProduct);
 
-    const { image, title, description, price, discountPrice, size, color, additionalInfo, category } = productDetails
+    if (!productDetails) return;
+    const { _id, image, title, description, price, discountPrice, size, color, additionalInfo, category, } = productDetails
 
 
-    const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('user'))
 
-    const handleaddtocart = (e) => {
+    const AddQuantity = () => {
+
+        setQuantity(quantity + 1)
+    }
+
+    const removeQuantity = () => {
+        setQuantity(quantity - 1)
+    }
+
+    const handleaddtocart = async (e) => {
+
         e.preventDefault();
-        dispatch(addToCart({ productId, quantity }));
+
+        try {
+            const res = await axios.patch('/api/product/update-quantity', { productId: _id, quantity }, {
+                withCredentials: true
+            })
+            console.log('updateqty', res.data)
+        } catch (error) {
+            console.log('updateqty not working', error)
+
+        }
+
+
+        try {
+            const res = await axios.post('/api/cart', {
+                userId: user._id,
+                products: [{ productId:_id }]
+            });
+
+            console.log(res.data)
+        }
+        catch (error) {
+            console.log('Add to cart failed', error)
+        }
+
     }
 
     return (
@@ -84,9 +120,11 @@ const Product = () => {
 
                         <div className="flex gap-2 justify-between mt-4 mb-3 ">
                             <div className="flex gap-2 border bg-[#f5f5f5] p-2  px-10 w-1/3 item-center justify-between font-bold rounded-md ">
-                                <button className="">-</button>
+                                <button className="font-bold" onClick={removeQuantity}><RiSubtractFill /></button>
+
                                 <h1>{quantity}</h1>
-                                <button>+</button>
+
+                                <button className="font-bold" onClick={AddQuantity}><FiPlus /></button>
 
                             </div>
                             <div className="flex border-2 gap-2 items-center justify-center p-2 mx-6 w-full bg-black text-white rounded-3xl ">
@@ -149,5 +187,6 @@ const Product = () => {
         </>
     )
 }
+
 
 export default Product

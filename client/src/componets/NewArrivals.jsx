@@ -10,7 +10,7 @@ const NewArrivals = () => {
 
         <div className="flex items-center justify-between m-4 ">
 
-          <div className="">
+          <div className="font-bold font-3xl">
             <h1>New</h1>
             <h1>Arrivals</h1>
           </div>
@@ -19,14 +19,15 @@ const NewArrivals = () => {
           </div>
         </div>
 
-        <div className="flex gap-4 space-x-4 w-full mb-2 mt-2 overflow-x-auto">
-          <div className="flex gap-4">
+        <div className="flex gap-1 space-x-2 w-full overflow-x-auto">
+          <div className="flex gap-1">
+
             {
               product?.map((item) => (
                 <ProductCart product={item} key={item._id} />
               ))
-
             }
+            
           </div>
         </div>
 

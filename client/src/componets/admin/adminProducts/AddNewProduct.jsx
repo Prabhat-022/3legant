@@ -8,6 +8,9 @@ import { FaAngleDown } from "react-icons/fa6";
 import { useState } from "react";
 import axios from "axios";
 const AddNewProduct = () => {
+  
+  const [qty, setQty] = useState(1)
+
   const [product, setProduct] = useState({
     lavel: "",
     title: "",
@@ -24,6 +27,7 @@ const AddNewProduct = () => {
 
   });
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevState) => ({ ...prevState, [name]: value }));
@@ -34,6 +38,7 @@ const AddNewProduct = () => {
     setProduct({ ...product, image: e.target.files }); // Update avatar with the selected file
   };
 
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
 
@@ -43,6 +48,7 @@ const AddNewProduct = () => {
     // Object.keys(product).forEach(key => {
     //   formData.append(key, product[key]);
     // });
+    
     formData.append('lavel', product.lavel);
     formData.append('title', product.title);
     formData.append('description', product.description);
@@ -54,11 +60,11 @@ const AddNewProduct = () => {
     formData.append('category', product.category);
     formData.append('moreInfo', product.moreInfo)
     formData.append('rating', product.rating);
+    formData.append('quantity', qty);
 
     for (let i = 0; i < product.image.length; i++) {
       formData.append('image', product.image[i]);
     }
-
 
 
     try {
@@ -172,9 +178,11 @@ const AddNewProduct = () => {
                   </div>
 
                   <div className="flex gap-2 border-2 bg-[#f5f5f5] p-2  px-10 w-1/3 item-center justify-between font-bold rounded-md ">
-                    <button className="">-</button>
-                    <h1>1</h1>
-                    <button>+</button>
+                    <button className="" onClick={() => setQty(qty - 1)}>-</button>
+
+                    <h1>{qty}</h1>
+
+                    <button className="" onClick={() => setQty(qty + 1)}>+</button>
                   </div>
                   <div className="my-4">
                     <button type="submit" className=" p-4 px-16 bg-[#070808] text-xl text-white font-bold rounded-full my-4">Add Product</button>

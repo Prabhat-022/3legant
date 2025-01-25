@@ -8,6 +8,7 @@ import ProductCart from "../../../pages/ProductCart"
 
 const AdminProducts = () => {
     const product = useSelector((state) => state.products.product)
+    console.log('product:', product)
 
     return (
         <>
@@ -15,6 +16,7 @@ const AdminProducts = () => {
             <div className="flex w-full h-[100vh] relative">
                 <AdminLeftLayout />
                 <div className="bg-[#f1f1f1] w-[80%]  mx-2 p-8 h-[100vh]">
+                    
                     <div className="p-2 flex justify-between items-center">
                         <h1 className="text-2xl font-bold">Products</h1>
                     </div>
@@ -30,9 +32,10 @@ const AdminProducts = () => {
                         }
 
                     </div>
+
                     <div className="absolute bottom-0 right-20 border p-4 bg-white shadow rounded-full">
 
-                        <button className="text-2xl cursor-pointer font-bold"> <Link to={"/admit-addnew-product"}> + Add New Product</Link></button>
+                        <button className="text-2xl cursor-pointer font-bold"> <Link to={"/addnew-product"}> + Add New Product</Link></button>
 
                     </div>
                 </div>

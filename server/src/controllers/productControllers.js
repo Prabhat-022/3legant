@@ -17,7 +17,7 @@ export const AddProduct = async (req, res) => {
 
         }
 
-        const existingProduct = await Product.findOne({$or: [{ title }, { description }]})
+        const existingProduct = await Product.findOne({ $or: [{ title }, { description }] })
 
         if (existingProduct) {
             return res.status(401).json({
@@ -32,7 +32,7 @@ export const AddProduct = async (req, res) => {
         console.log("productImgLocalPaths: ", productImgLocalPaths);
 
         if (!productImgLocalPaths || productImgLocalPaths.length === 0) {
-            
+
             return res.status(401).json({
                 message: "Prodct Img is required",
                 success: false
@@ -61,7 +61,7 @@ export const AddProduct = async (req, res) => {
             color,
             additionalInfo,
             size,
-            image: img.map(imgObj => ({url: imgObj.url})),
+            image: img.map(imgObj => ({ url: imgObj.url })),
             discountPrice,
             moreInfo,
             rating
@@ -156,6 +156,20 @@ export const GetProductById = async (req, res) => {
 
         })
     } catch (error) {
+        console.log('Error fetching product', error)
+    }
+}
 
+export const updateProductQuantity = async (req, res) => {
+    try {
+        const { productId, quantity } = req.body;
+        const product = await Product.findByIdAndUpdate(productId, { quantity }, { new: true });
+        return res.status(200).json({
+            message: "Product quantity updated successfully",
+            success: true,
+            product
+        })
+    } catch (error) {
+        console.log('Error updating product quantity', error)
     }
 }

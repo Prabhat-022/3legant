@@ -1,5 +1,5 @@
 import express from "express";
-import { AddProduct, DeleteProduct, GetAllProducts, GetProductById, UpdateProduct } from "../controllers/productControllers.js";
+import { AddProduct, DeleteProduct, GetAllProducts, GetProductById, UpdateProduct, updateProductQuantity } from "../controllers/productControllers.js";
 
 import { upload } from "../middleware/multer.js";
 
@@ -9,8 +9,9 @@ router.route("/add-product").post(
     upload.array('image', 10), AddProduct)
 
 router.route("/").get(GetAllProducts)
-router.route("/update-product/:id").post(UpdateProduct)
-router.route("/delete-product?id").delete(DeleteProduct)
-router.route("/get-product-by-id").post(GetProductById)
+router.route("/:id").post(GetProductById)
+router.route("/:id").put(UpdateProduct)
+router.route("/:id").delete(DeleteProduct)
+router.route("/update-quantity").patch(updateProductQuantity)
 
 export default router

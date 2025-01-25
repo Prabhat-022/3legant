@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleStatusTab } from '../redux/cartSlice';
+import { UseGetAllTheCartProducts } from '../hooks/useGetAllTheCartProducts';
 
 
 const Header = () => {
@@ -12,8 +13,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState(false)
   const loginUser = useSelector(state => state.user?.loginuser)
-  const localUser = JSON.parse(localStorage.getItem('user'))
-  console.log('localUser', localUser)
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  console.log('user', user.fullName)
 
   const product = useSelector(state => state.cart?.cart)
 
@@ -21,6 +23,10 @@ const Header = () => {
   const handleOpenTabCart = () => {
     dispatch(toggleStatusTab());
   }
+  UseGetAllTheCartProducts(loginUser?._id || user?._id)
+
+
+
 
   return (
     <>
@@ -55,7 +61,7 @@ const Header = () => {
             </div>
             <div className="flex gap-2">
               <Link to={loginUser?.role === "admin" ? "/admin" : "/"} className='cursor-pointer'><CgProfile size={25} /></Link>
-              <p>{loginUser?.fullName}</p>
+              <p>{loginUser?.fullName ||user?.fullName}</p>
             </div>
           </div>
 

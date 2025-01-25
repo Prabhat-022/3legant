@@ -8,13 +8,14 @@ import ShoppingCart from "./componets/shoppingCart/ShoppingCart";
 import OrderCompleted from "./componets/shoppingCart/OrderCompleted";
 import AdminDashboard from "./componets/admin/AdminDashboard";
 import AdminProductStock from "./componets/admin/AdminProductStock";
-// import AdminProducts from "./componets/admin/adminProducts/AdminProducts";
+import AdminProducts from "./componets/admin/adminProducts/AdminProducts";
 import ProductPage from "./componets/products/ProductPage";
 // import UserProfile from "./componets/user/userProfile";
 import Contact from "./componets/Contact";
 import EditProduct from "./componets/admin/adminProducts/EditProduct";
 import AddNewProduct from "./componets/admin/adminProducts/AddNewProduct";
 import Layout from "./componets/Layout";
+import AdminLayout from "./componets/admin/AdminLayout";
 
 
 
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Index />, 
+        element: <Index />,
       },
       {
         path: "shop",
@@ -44,29 +45,26 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "admin",
+    path: "/admin-dashboard",
     element: <AdminDashboard />,
-    children: [
-      {
-        path: "index",
-        element: <AdminDashboard />,
-      },
-      {
-        path: "edit-product",
-        element: <EditProduct />,
-      },
-      {
-        path: "addnew-product",
-        element: <AddNewProduct />,
-      },
-      {
-        path: "product-stock",
-        element: <AdminProductStock />,
-      },
-      {
-
-      }]
   },
+  {
+    path: "edit-product",
+    element: <EditProduct />,
+  },
+  {
+    path: "/addnew-product",
+    element: <AddNewProduct />,
+  },
+  {
+    path: "/product-stock",
+    element: <AdminProductStock />,
+  },
+  {
+    path: '/product',
+    element: <AdminProducts />
+  },
+
 
   {
     path: "cart",
@@ -83,7 +81,7 @@ const router = createBrowserRouter([
         element: <OrderCompleted />
 
       },
-     
+
     ]
   },
 
@@ -97,7 +95,7 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
-  }, 
+  },
 
   {
     path: "/signin",

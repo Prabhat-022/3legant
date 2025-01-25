@@ -17,7 +17,7 @@ const Hero = () => {
 
       <div className="m-2 p-2 mx-24">
 
-        <div className=" flex items-center justify-between gap-4 px-4 m-4">
+        <div className=" flex items-center justify-between gap-4 ">
           <div className="m-4 ">
             <h1 className='text-3xl font-bold'>Simply Unique/</h1>
             <h1 className='text-3xl font-bold'>Simply Better.</h1>
@@ -32,7 +32,7 @@ const Hero = () => {
         </div>
 
         {/* //product section */}
-        <div className="flex gap-2 p-4 h-[500px]">
+        <div className="flex gap-2 p-4 h-[500px] mb-20">
 
           <div className="shadow relative w-[60%] h-[550px]">
             <img src={sofa} alt="" className='w-full h-full' />
@@ -42,9 +42,9 @@ const Hero = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2  h-[550px] w-[40%] ">
+          <div className="flex flex-col gap-1 h-[550px] w-[40%] ">
             <div className="">
-              <div className="shadow relative w-full h-[275px] mb-4">
+              <div className="shadow relative w-full h-[275px]">
                 <img src={drawer} alt="" className='w-full h-[275px] ' />
                 <div className="absolute top-4 left-4 flex items-center flex-col h-[200px]">
                   <h1 className='text-xl font-bold font-serif'>Bedroom</h1>
@@ -54,8 +54,8 @@ const Hero = () => {
             </div>
 
             <div className="">
-              <div className="shadow relative h-[275px] mt-4">
-                <img src={breadtoster} alt="" className='w-full h-[275px]' />
+              <div className="shadow relative h-[275px]">
+                <img src={breadtoster} alt="" className='w-full h-[270px]' />
                 <div className="absolute bottom-4 left-4 flex items-center flex-col">
                   <h1 className='text-xl font-bold font-serif'>Kitchen</h1>
                   <Shopnow />

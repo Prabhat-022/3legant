@@ -4,10 +4,12 @@ import { FiPlus } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleStatusTab } from "../../redux/cartSlice";
+import { useState } from "react";
 
 const FlyoutCart = () => {
     const products = useSelector((state) => state.cart.cart);
     const item = products.map((item) => item.product);
+    const [quantity, setQuantity] = useState(1);
 
 
     const statusTab = useSelector(state => state.cart.statusTab);
@@ -16,7 +18,14 @@ const FlyoutCart = () => {
     const handleCloseTabCart = () => {
         dispatch(toggleStatusTab());
     }
+    const AddQuantity = () => {
 
+        setQuantity(quantity + 1)
+    }
+
+    const removeQuantity = () => {
+        setQuantity(quantity - 1)
+    }
     return (
         <>
             {/* <Index /> */}
@@ -31,21 +40,22 @@ const FlyoutCart = () => {
 
                     <table className="table-auto w-full h-full overflow-hidden scrollbar-hide ">
 
-
                         {
                             item.map((item) => (
                                 <>
-                                    <tr key={item._id}>
+                                    <tr key={item?._id}>
                                         <td className='flex gap-3 justify-between'>
-                                            <img src={item.image[0].url} alt="" className='w-[100px] h-[100px]' />
+                                            <img src={item?.image[0].url} alt="" className='w-[100px] h-[100px]' />
                                             <div className="">
-                                                <h1 className='font-bold font-mono m-1'>{item.title}</h1>
-                                                <h1 className='text-[#898f98] m-1'>Color: {item.color}</h1>
+                                                <h1 className='font-bold font-mono m-1'>{item?.title}</h1>
+                                                <h1 className='text-[#898f98] m-1'>Color: {item?.color}</h1>
 
                                                 <div className="border flex gap-3  items-center m-1 justify-center">
-                                                    <button className="font-bold"><RiSubtractFill /></button>
-                                                    <h1>{products.quantity}</h1>
-                                                    <button><FiPlus /></button>
+                                                    <button className="font-bold" onClick={removeQuantity}><RiSubtractFill /></button>
+
+                                                    <h1>{products.quantity || quantity}</h1>
+
+                                                    <button className="font-bold" onClick={AddQuantity}><FiPlus /></button>
                                                 </div>
                                             </div>
                                             <h1 className='font-bold'>${item.price}</h1>

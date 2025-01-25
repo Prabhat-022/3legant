@@ -1,5 +1,3 @@
-import HeaderPopup from '../HeaderPopup'
-import Header from '../../pages/Header'
 import shopheader from '../../assets/shop-page-header.jpg'
 import { FaAngleDown } from "react-icons/fa";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
@@ -7,22 +5,33 @@ import { BsFillGridFill } from "react-icons/bs";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import { BsFillHddStackFill } from "react-icons/bs";
 import ProductCart from '../../pages/ProductCart';
-import Newsletter from '../Newsletter';
-import Footer from '../../pages/Footer';
 import { UseGetAllTheProdut } from '../../hooks/UseGetAllTheProduct';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const Shop = () => {
+
     UseGetAllTheProdut()
     const product = useSelector((state) => state.products.product)
-    const products = useSelector((state) => state.cart.cart);
     // console.log('cart product:', products[0].product);
-    const item = products.map((item) => item.product);
-    console.log('item:', item);
+
+    const getInitialState = () => {
+        const value = "All";
+        return value;
+    };
+
+    const [value, setValue] = useState(getInitialState);
+    console.log('value:', value);
+
+    const handleChange = (e) => {
+        setValue(e.target.value);
+    };
+
+
     return (
         <>
-       
-            <div className="mx-24 p-4">
+
+            <div className=" p-4">
                 <div className="relative flex items-center justify-center w-full">
                     <img src={shopheader} alt="" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-opacity-50">
@@ -37,11 +46,11 @@ const Shop = () => {
                     <div className="">
                         <h1 className='font-serif text-[#716e6e] mb-2'>CATEGORIES</h1>
                         <div className="flex">
-                            <select name="" id="">
-                                <option value="">All</option>
-                                <option value="">Living room</option>
-                                <option value="">Tabel</option>
-                                <option value="">Sofa</option>
+                            <select name="" id="" value={value} onChange={handleChange}>
+                                <option value="All">All</option>
+                                <option value="Living room">Living room</option>
+                                <option value="table">Tabel</option>
+                                <option value="sofa">Sofa</option>
                             </select>
                         </div>
                     </div>
@@ -73,7 +82,7 @@ const Shop = () => {
                     </div>
 
                 </div>
-                <div className="flex flex-wrap gap-2 items-center justify-center ">
+                <div className="flex flex-wrap gap-3 items-center justify-center ">
                     {
                         product?.map((item) => (
                             <ProductCart product={item} key={item._id} />

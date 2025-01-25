@@ -5,18 +5,18 @@ export const productSlice = createSlice({
 
     initialState: {
         product: [],
-        singleProduct: null,
-        
+        singleProduct: null,  
     },
 
     reducers: {
+
         setAllProducts: (state, action) => {
             state.product = action.payload
         },
         setSingleProduct: (state, action) => {
             state.singleProduct = action.payload
         },
-
+        
     },
 });
 

@@ -4,12 +4,13 @@ const AdminLeftLayout = () => {
     return (
         <>
             {/* <div className="w-1/4 bg-[#f1f1f1] h-[100vh] flex flex-col justify-between "> */}
+
             <div className="w-1/4 h-[100vh] flex flex-col justify-between ">
 
                 <div className="flex flex-col gap-5 p-4 m-4 font-bold ">
-                    <button className="hover:bg-[#070808] hover:text-white  p-2 rounded"><Link to={'/admin'}>Dashboard</Link></button>
+                    <button className="hover:bg-[#070808] hover:text-white  p-2 rounded"><Link to={'/admin-dashboard'}>Dashboard</Link></button>
                     <button className="hover:bg-[#070808] hover:text-white  p-2 rounded">
-                        <Link to={'/admin-product'}>Products</Link>
+                        <Link to={'/product'}>Products</Link>
                         </button>
                     <button className="hover:bg-[#070808] hover:text-white  p-2 rounded">
                         <Link>Favorites</Link>
@@ -26,7 +27,7 @@ const AdminLeftLayout = () => {
                     </button>
                     <button className="hover:bg-[#070808] hover:text-white  p-2 rounded">
 
-                        <Link to={'/admin-product-stock'}>Product Stock</Link>
+                        <Link to={'/product-stock'}>Product Stock</Link>
                     </button>
                 </div>
 

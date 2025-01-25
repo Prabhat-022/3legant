@@ -8,7 +8,7 @@ const AdminHeader = () => {
     const loginUser = useSelector(state => state.user?.loginuser)
     return (
         <>
-            <div className="">
+            <div className="mx-20">
                 <div className="flex justify-between items-center m-2 px-4">
 
                     <div className="">

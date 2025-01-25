@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { FaStar } from "react-icons/fa6";
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSingleProduct } from '../redux/productSlice';
-import { addToCart } from '../redux/cartSlice';
+import axios from 'axios';
 
 const ProductCart = ({ product }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const userId = useSelector(state => state.user?.loginuser)
+    const user = JSON.parse(localStorage.getItem('user'))
 
 
     const handleSingleProduct = (item) => {
@@ -15,7 +18,7 @@ const ProductCart = ({ product }) => {
 
         if (item) {
             navigate('/product-details')
-        }else{
+        } else {
             navigate('/')
         }
 
@@ -26,15 +29,29 @@ const ProductCart = ({ product }) => {
     // console.log('img:', img)
     const img = product.image.map((img) => img?.url);
 
-    const handleaddtocart = (e) => {
+    const handleaddtocart = async (e) => {
 
         e.preventDefault();
-        dispatch(addToCart({ product, productId: product._id, quantity: 1 }));
+
+   
+
+        try {
+            const res = await axios.post('/api/cart', {
+                userId: userId?._id || user._id,
+                products: [{ productId: product._id }]
+            });
+
+            console.log(res.data)
+        }
+        catch (error) {
+            console.log('Add to cart failed', error)
+        }
 
     }
     return (
         <>
             <div className="w-[300px] h-[400px] border-2 border-gray-200  relative m-4 p-4"  >
+                
                 <img src={img[0]} alt="" className='w-full h-[300px] flex items-center justify-center' onClick={() => handleSingleProduct(product)} />
 
                 <div className="absolute top-2 left-2 p-1">
