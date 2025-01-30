@@ -6,10 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server/Index.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "npm install && npm install --prefix client && npm run build --prefix client"
-
+    "dev": "nodemon Index.js"
   },
   "keywords": [],
   "author": "",

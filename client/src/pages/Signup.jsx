@@ -3,7 +3,7 @@ import signupImg from "../assets/Left.jpg";
 import axios from 'axios'
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { setloginUser } from '../redux/userSlice';
+import { setadmin, setloginUser } from '../redux/userSlice';
 import { useForm } from "react-hook-form"
 
 
@@ -13,18 +13,6 @@ const Signup = () => {
         register,
         handleSubmit,
     } = useForm()
-
-
-    // const [user, setUser] = useState({
-    //     fullName: "",
-    //     userName: "",
-    //     email: "",
-    //     password: "",
-    //     isagree: false,
-    //     role: ""
-
-    // })
-    // console.log('user', user)
 
     // const [isChecked, setIsChecked] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -74,29 +62,64 @@ const Signup = () => {
 
     const onSubmit = async (data) => {
         console.log('data', data)
-        try {
-            setLoading(true)
+        console.log('role', data.role)
 
-            const res = await axios.post('/api/user/register', data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true
-            })
+        if (data.role === "admin") {
 
+            try {
+                setLoading(true)
+                const res = await axios.post('/api/admin/register', data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true
+                })
 
+                console.log('admin signup res', res.data);
+                console.log('admin success', res.data.success);
 
-            if (res.data.success === true) {
-                const { user } = res.data
-                dispatch(setloginUser(user))
-                data("")
-                setLoading(false)
+                if (res.data.success) {
+
+                    const { user } = res.data;
+                    dispatch(setadmin(user))
+                    data("")
+                    setLoading(false)
+
+                }
                 navigate('/signin')
+
+            } catch (error) {
+                setLoading(false)
+                console.log("Admin Signup failed", error)
             }
 
-        } catch (error) {
-            setLoading(false)
-            console.log("Signup failed", error)
+        } else if (data.role === "user") {
+
+            try {
+                setLoading(true)
+
+                const res = await axios.post('/api/user/register', data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true
+                })
+                console.log('user signup res', res.data);
+                console.log('user signup res', res.data.success);
+
+
+                if (res.data.success) {
+                    const { user } = res.data
+                    dispatch(setloginUser(user))
+                    data("")
+                    setLoading(false)
+                }
+                navigate('/signin')
+
+            } catch (error) {
+                setLoading(false)
+                console.log(" User Signup failed", error)
+            }
         }
     }
 

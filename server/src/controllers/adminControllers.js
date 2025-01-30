@@ -1,13 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import bcrypt from 'bcryptjs'
-import { User } from '../models/userModel.js'
-
+import {Admin} from '../models/adminModel.js';
 export const Login = async (req, res) => {
     const { role } = req.body;
     console.log('role: ', role);
 
-    if (role !== "user") {
+    if (role !== "admin") {
         return res.status(400).json({
             message: "Invalid role",
             success: false
@@ -31,11 +30,11 @@ export const Login = async (req, res) => {
                 });
             }
 
-            const user = await User.findOne({ $or: [{ email }, { userName }] });
+            const user = await Admin.findOne({ $or: [{ email }, { userName }] });
 
             if (!user) {
                 return res.status(401).json({
-                    message: "Invalid user credentials",
+                    message: "Invalid admin credentials",
                     success: false
                 });
             }
@@ -44,7 +43,7 @@ export const Login = async (req, res) => {
 
             if (!isPasswordMatch) {
                 return res.status(401).json({
-                    message: "Invalid user credentials",
+                    message: "Invalid admin credentials",
                     success: false
                 });
             }
@@ -55,14 +54,7 @@ export const Login = async (req, res) => {
 
             const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
 
-            // const userResponse = {
-            //     _id: user._id,
-            //     fullName: user.fullName,
-            //     userName: user.userName,
-            //     email: user.email,
-            //     avatar: user.avatar
 
-            // };
 
             return res.status(200)
                 .cookie("token", token, {
@@ -71,14 +63,14 @@ export const Login = async (req, res) => {
                     sameSite: 'strict'
                 })
                 .json({
-                    message: "Login successful",
+                    message: "Admin Login successful",
                     success: true,
                     token,
                     user
                 });
 
         } catch (error) {
-            console.log(`Login error: ${error}`);
+            console.log(`Admin Login error: ${error}`);
             return res.status(500).json({
                 message: "Login failed",
                 success: false,
@@ -91,15 +83,16 @@ export const Login = async (req, res) => {
 
 export const Register = async (req, res) => {
     const { role } = req.body;
-
     console.log('role: ', role);
-    if (role !== "user") {
+
+    if (role !== "admin") {
+
         return res.status(400).json({
             message: "Invalid role",
             success: false
         });
-    }
-    else {
+
+    } else {
         try {
             const { fullName, userName, email, password, role } = req.body;
 
@@ -114,7 +107,7 @@ export const Register = async (req, res) => {
             }
 
             // Check if user exists with either email or userName
-            const existingUser = await User.findOne({
+            const existingUser = await Admin.findOne({
                 $or: [{ email }, { userName }]
             });
 
@@ -127,14 +120,14 @@ export const Register = async (req, res) => {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await User.create({
+            const newUser = await Admin.create({
                 fullName,
                 userName,
                 email,
                 password: hashedPassword,
             });
 
-            console.log('create newUser: ', newUser);
+            console.log('create new admin: ', newUser);
 
             return res.status(201).json({
                 message: "Account created successfully",
@@ -143,7 +136,7 @@ export const Register = async (req, res) => {
             });
 
         } catch (error) {
-            console.log(`Account not created: ${error}`);
+            console.log(`Admin Account not created: ${error}`);
 
             return res.status(500).json({
                 message: "Account creation failed",
@@ -152,28 +145,5 @@ export const Register = async (req, res) => {
             });
         }
     }
-}
 
-
-
-export const logOut = async (req, res) => {
-    try {
-        return res.status(200)
-            .cookie("token", "", {
-                maxAge: 0,
-                httpOnly: true,
-                sameSite: 'strict'
-            })
-            .json({
-                message: "Logged out successfully",
-                success: true
-            });
-    } catch (error) {
-        console.log(`Logout failed: ${error}`);
-        return res.status(500).json({
-            message: "Logout failed",
-            success: false,
-            error: error.message
-        });
-    }
-}  
+};

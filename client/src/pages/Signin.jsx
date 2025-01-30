@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import signupImg from "../assets/Left.jpg";
 import axios from 'axios'
 import { useState } from "react";
-import { setloginUser } from "../redux/userSlice";
+import { setadmin, setloginUser } from "../redux/userSlice";
 import { useDispatch } from 'react-redux'
 
 import { useForm } from "react-hook-form"
@@ -12,15 +12,6 @@ const Signin = () => {
 
 
 
-  // console.log(watch("example")) // watch input value by passing the name of it
-
-  // const [loginUser, setLoginUser] = useState({
-  //   email: "",
-  //   password: "",
-  //   role: "",
-  // });
-
-  // console.log('loginUser: ', loginUser)
 
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
@@ -73,39 +64,64 @@ const Signin = () => {
 
 
   const onSubmit = async (data) => {
-    try {
-      setLoading(true)
-      const res = await axios.post('/api/user/login', data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true
-      })
+    console.log('data', data)
 
-      setLoading(true)
 
-      if (res.data.success) {
-        dispatch(setloginUser(res.data.user))
-        localStorage.setItem('user', JSON.stringify(res.data.user))
-        setLoading(false)
+    if (data.role === "user") {
+      try {
+        setLoading(true)
+        const res = await axios.post('/api/user/login', data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true
+        })
 
-        if (res.data.user.role === "admin") {
+        setLoading(true)
 
-          navigate('//admin-dashboard')
+        if (res.data.success) {
+          dispatch(setloginUser(res.data.user))
+          localStorage.setItem('user', JSON.stringify(res.data.user))
           setLoading(false)
 
-        } else {
           navigate('/')
+          setLoading(false)
+
+        }
+
+      } catch (error) {
+        console.log('User Login  failed:', error)
+        setLoading(false)
+      }
+    }
+    else if (data.role === "admin") {
+      try {
+        setLoading(true)
+        const res = await axios.post('/api/admin/login', data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true
+        })
+
+        setLoading(true)
+
+        if (res.data.success) {
+          dispatch(setadmin(res.data.user))
+          localStorage.setItem('user', JSON.stringify(res.data.user))
+          setLoading(false)
+
+          navigate('/admin-dashboard')
           setLoading(false)
         }
 
+      } catch (error) {
+
+        console.log(' Admin Login  failed:', error)
+        setLoading(false)
       }
-
-
-    } catch (error) {
-      console.log('Login failed:', error)
-      setLoading(false)
     }
+
   }
 
   return (

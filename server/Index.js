@@ -3,11 +3,10 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRoutes from './src/routes/userRoutes.js';
-import productRoutes from './src/routes/productRoutes.js';
 import cartRoutes from './src/routes/cartRoute.js';
+import adminRoutes from './src/routes/adminRoute.js';
+import productRoutes from './src/routes/productRoutes.js';
 import connectDB from './src/db/dbConfig.js';
-import path from 'path';
-
 
 
 dotenv.config({
@@ -18,7 +17,6 @@ const app = express();
 connectDB();
 
 const port = process.env.PORT || 6000;
-const __dirname = path.resolve();
 
 // For parsing application/json
 app.use(express.json());
@@ -32,16 +30,20 @@ app.use(cors({
     credentials: true,
 }));
 
-// Create API
-app.use("/api/user", userRoutes);
-app.use("/api/product", productRoutes);
-app.use("/api/cart",cartRoutes );
-
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('/', (req, res) => {
+    res.send('i am coming form the server');
+})
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+    res.send('Page not found');
 })
+
+// Create API
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/product", productRoutes);
+
 
 app.listen(port, () => {
     console.log(`Index server ${port}`);

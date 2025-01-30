@@ -90,6 +90,7 @@ export const AddProduct = async (req, res) => {
 }
 
 export const UpdateProduct = async (req, res) => {
+
     let product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -129,10 +130,10 @@ export const DeleteProduct = async (req, res) => {
 }
 
 export const GetAllProducts = async (req, res) => {
+
     try {
         const product = await Product.find({})
-
-
+        
         return res.status(200).json({
             message: "Products fetched successfully",
             success: true,
@@ -147,8 +148,9 @@ export const GetAllProducts = async (req, res) => {
 
 export const GetProductById = async (req, res) => {
     try {
-        const ProductId = req.body;
-        const product = await Product.findById(ProductId)
+        const id = req.params.id
+       
+        const product = await Product.findById(id)
         return res.status(200).json({
             message: "Product fetched successfully",
             success: true,

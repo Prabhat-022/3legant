@@ -1,0 +1,45 @@
+version: '1.0'
+name: '3legant'
+
+services:
+  backend:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/app
+    networks:
+        - 3legant
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+    command: npm run dev
+
+  frontend:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/app
+    networks:
+      - 3legant
+    ports:
+      - '5173:5173'
+    command: npm run dev
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks:
+      - 3legant
+
+networks:
+  3legant:
+    driver: bridge

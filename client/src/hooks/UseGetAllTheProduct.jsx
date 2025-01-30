@@ -9,7 +9,7 @@ export const UseGetAllTheProdut = () => {
     useEffect(() => {
         const GetAllProductData = async () => {
             try {
-                const res = await axios.get('/api/product', { withCredentials: true });
+                const res = await axios.post('/api/product', { withCredentials: true });
 
                 if (res.data.success) {
                     dispatch(setAllProducts(res.data.product));
