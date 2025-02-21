@@ -8,7 +8,6 @@ import { useState } from "react";
 
 const FlyoutCart = () => {
     const products = useSelector((state) => state.cart.cart);
-    const item = products.map((item) => item.product);
     const [quantity, setQuantity] = useState(1);
 
 
@@ -32,7 +31,7 @@ const FlyoutCart = () => {
             <div className={`fixed top-0 right-0 h-screen w-[400px] bg-white p-4 transform transition-transform ease-in-out duration-300
             ${statusTab === false ? 'translate-x-full' : ""}`}>
 
-                <div className="flex flex-col h-full p-4">
+                <div className="flex flex-col h-full p-4 overflow-y-scroll scrollbar-hide">
                     <div className="flex justify-between items-center p-4 border-b-2 mb-4">
                         <h1>Cart</h1>
                         <p onClick={handleCloseTabCart}><RxCross2 /></p>
@@ -41,11 +40,14 @@ const FlyoutCart = () => {
                     <table className="table-auto w-full h-full overflow-hidden scrollbar-hide ">
 
                         {
-                            item.map((item) => (
+                            products?.map((item) => (
                                 <>
                                     <tr key={item?._id}>
                                         <td className='flex gap-3 justify-between'>
-                                            <img src={item?.image[0].url} alt="" className='w-[100px] h-[100px]' />
+
+
+                                            {/* <img src={item?.image[1].url} alt="" className='w-[100px] h-[100px]' /> */}
+
                                             <div className="">
                                                 <h1 className='font-bold font-mono m-1'>{item?.title}</h1>
                                                 <h1 className='text-[#898f98] m-1'>Color: {item?.color}</h1>

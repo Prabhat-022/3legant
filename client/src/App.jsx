@@ -15,7 +15,8 @@ import Contact from "./componets/Contact";
 import EditProduct from "./componets/admin/adminProducts/EditProduct";
 import AddNewProduct from "./componets/admin/adminProducts/AddNewProduct";
 import Layout from "./componets/Layout";
-import AdminLayout from "./componets/admin/AdminLayout";
+import CartIndex from "./componets/shoppingCart/CartIndex";
+
 
 
 
@@ -68,9 +69,12 @@ const router = createBrowserRouter([
 
   {
     path: "cart",
-    element: <ShoppingCart />,
+    element: <CartIndex />,
     children: [
-
+      {
+        path: 'ShoppingCart',
+        element: <ShoppingCart />
+      },
       {
         path: 'CheckoutDetails',
         element: <CheckoutDetails />
@@ -81,7 +85,6 @@ const router = createBrowserRouter([
         element: <OrderCompleted />
 
       },
-
     ]
   },
 

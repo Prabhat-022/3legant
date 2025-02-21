@@ -38,7 +38,7 @@ const ProductCart = ({ product }) => {
         try {
             const res = await axios.post('/api/cart', {
                 userId: userId?._id || user._id,
-                products: [{ productId: product._id }]
+                productId: product._id
             });
 
             console.log(res.data)

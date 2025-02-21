@@ -10,20 +10,19 @@ import { UseGetAllTheCartProducts } from '../hooks/useGetAllTheCartProducts';
 
 const Header = () => {
 
+  UseGetAllTheCartProducts()
+  
   const dispatch = useDispatch();
   const [search, setSearch] = useState(false)
   const loginUser = useSelector(state => state.user?.loginuser)
   const user = JSON.parse(localStorage.getItem('user'))
-
-  console.log('user', user.fullName)
-
   const product = useSelector(state => state.cart?.cart)
 
-
-  const handleOpenTabCart = () => {
+  const handleOpenTabCart = async () => {
     dispatch(toggleStatusTab());
+
   }
-  UseGetAllTheCartProducts(loginUser?._id || user?._id)
+  // UseGetAllTheCartProducts(loginUser?._id || user?._id)
 
 
 
@@ -61,7 +60,7 @@ const Header = () => {
             </div>
             <div className="flex gap-2">
               <Link to={loginUser?.role === "admin" ? "/admin" : "/"} className='cursor-pointer'><CgProfile size={25} /></Link>
-              <p>{loginUser?.fullName ||user?.fullName}</p>
+              <p>{loginUser?.fullName || user?.fullName}</p>
             </div>
           </div>
 

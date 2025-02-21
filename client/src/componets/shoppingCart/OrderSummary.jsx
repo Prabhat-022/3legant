@@ -4,44 +4,45 @@ import { FiPlus } from "react-icons/fi";
 import { useSelector } from 'react-redux';
 const OrderSummary = () => {
 
+    
     const products = useSelector((state) => state.cart.cart);
-    const item = products.map((item) => item.product);
 
     return (
         <>
-            <div className="w-full ">
+            <div className="w-full  ">
                 <div className="border-2 border-[#898f98] p-4">
                     <h1 className="text-2xl font-bold m-2">Order Summary</h1>
+                    <div style={{ height: "75vh", overflowY: "scroll" }}>
+                        <table className="table-auto w-full h-full">
+                            {
+                                products?.map((item) => (
+                                    <>
+                                        <tr>
+                                            <td className="flex gap-3 justify-between">
+                                                <img src={item.image[0].url} alt="" className="w-[100px] h-[100px]" />
+                                                <div className="">
+                                                    <h1 className="font-bold font-mono m-1">{item.title}</h1>
+                                                    <h1 className="text-[#898f98] m-1">Color:  {item.color}</h1>
 
-                    <table className="table-auto w-full">
-                        {
-                            item.map((item) => (
-                                <>
-                                    <tr>
-                                        <td className="flex gap-3 justify-between">
-                                            <img src={item.image[0].url} alt="" className="w-[100px] h-[100px]" />
-                                            <div className="">
-                                                <h1 className="font-bold font-mono m-1">{item.title}</h1>
-                                                <h1 className="text-[#898f98] m-1">Color:  {item.color}</h1>
+                                                    <div className="border flex gap-3  items-center m-1 justify-center">
+                                                        <button className="font-bold"><RiSubtractFill /></button>
+                                                        <h1>2</h1>
+                                                        <button><FiPlus /></button>
+                                                    </div>
 
-                                                <div className="border flex gap-3  items-center m-1 justify-center">
-                                                    <button className="font-bold"><RiSubtractFill /></button>
-                                                    <h1>2</h1>
-                                                    <button><FiPlus /></button>
                                                 </div>
-
-                                            </div>
-                                            <h1 className="font-bold">{item.price}</h1>
-                                        </td>
+                                                <h1 className="font-bold">{item.price}</h1>
+                                            </td>
 
 
-                                    </tr>
-                                    <hr />
-                                </>))
-                      }
+                                        </tr>
+                                        <hr />
+                                    </>))
+                          }
 
 
-                    </table>
+                        </table>
+                    </div>
 
                     <hr className='mb-2' />
 

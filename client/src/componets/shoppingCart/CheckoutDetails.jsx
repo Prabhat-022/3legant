@@ -1,19 +1,13 @@
-import Footer from "../../pages/Footer"
-import Header from "../../pages/Header"
-import CartNavigation from "./CartNavigation"
 import OrderSummary from "./OrderSummary"
 
 const CheckoutDetails = () => {
     return (
         <>
-            <Header />
             <div className="mx-24">
 
                 <h1 className='text-3xl font-bold text-center my-4 ' >Check Out</h1>
 
-                <div className="">
-                    <CartNavigation />
-                </div>
+
                 <div className="flex m-10 gap-2 w-[100%] ">
                     <div className="w-[50%]">
 
@@ -140,7 +134,6 @@ const CheckoutDetails = () => {
 
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

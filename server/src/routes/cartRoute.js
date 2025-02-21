@@ -3,8 +3,8 @@ import { AddItemToCart, getAllShoppingCart, removeItemFromCart } from '../contro
 
 const router = express.Router();
 
-router.route('/:userId').post(getAllShoppingCart)
 router.route('/').post(AddItemToCart)
+router.route('/:userId').post(getAllShoppingCart)
 router.route('/:productId').delete(removeItemFromCart)
 
 export default router

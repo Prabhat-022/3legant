@@ -19,7 +19,7 @@ const CartNavigation = () => {
                             <h1 className="">1</h1>
 
                         </div>
-                        <Link to={'/cart'}>Shopping cart</Link>
+                        <Link to={'ShoppingCart'}>Shopping cart</Link>
                     </div>
                 </div>
 
