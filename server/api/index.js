@@ -2,11 +2,11 @@ import express from 'express';
 import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import userRoutes from './src/routes/userRoutes.js';
-import cartRoutes from './src/routes/cartRoute.js';
-import adminRoutes from './src/routes/adminRoute.js';
-import productRoutes from './src/routes/productRoutes.js';
-import connectDB from './src/db/dbConfig.js';
+import userRoutes from '../src/routes/userRoutes.js';
+import cartRoutes from '../src/routes/cartRoute.js';
+import adminRoutes from '../src/routes/adminRoute.js';
+import productRoutes from '../src/routes/productRoutes.js';
+import connectDB from '../src/db/dbConfig.js';
 
 
 dotenv.config({
