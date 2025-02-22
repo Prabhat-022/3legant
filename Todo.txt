@@ -5,8 +5,9 @@
 6) protected routes 
 7) store cookies 
 8) Add docker file
-9) fix the deployment issue and deploy on vercel
 10) After the click on login and signup buton it is not redirect to the login page.
+11) Frontend deploy on vercel 
+12) Backend deploy on vercel have some issue , Error : 404 not found 
 
 
 
