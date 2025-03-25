@@ -1,0 +1,9 @@
+Error: listen EADDRINUSE: address already in use :::3000
+
+solution:  npx kill-port 3000
+
+
+Todo List -------> 
+1) Add infinite scroll in product list in shop page 
+2) Applying the filters in shop page 
+3)
