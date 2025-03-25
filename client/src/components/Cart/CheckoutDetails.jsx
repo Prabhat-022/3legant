@@ -175,7 +175,7 @@ const CheckoutDetails = () => {
                             </div>
 
                             <div className="mt-4">
-                                <Link to={''}>
+                                <Link to={'/payment'}>
                                     <button type="submit"
                                         className="text-white bg-[#070808] hover:bg-[070808] p-3 rounded w-full">{loading ? 'Loading...' : 'Place Order'}</button>
                                 </Link>

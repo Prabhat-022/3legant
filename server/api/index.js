@@ -6,6 +6,7 @@ import userRoute from'../src/routes/userRoute.js'
 import cartRoute from'../src/routes/cartRoute.js'
 import productRoute from'../src/routes/productRoute.js'
 import {connectDB} from '../src/config/db.js'
+import paymentRoute from '../src/routes/paymentRoute.js'
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 app.use('/api', userRoute)
 app.use('/api', cartRoute)
 app.use('/api', productRoute)
+app.use('/api', paymentRoute)
 
 
 app.listen(port, () => {

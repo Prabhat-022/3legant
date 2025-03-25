@@ -24,6 +24,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "react-slideshow-image": "^4.3.2",
+    "react-stripe-checkout": "^2.6.3",
     "recharts": "^2.15.1",
     "tailwindcss": "^4.0.9"
   },

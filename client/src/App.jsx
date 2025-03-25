@@ -20,6 +20,7 @@ import DashboardAdmin from './components/Admin/Dashboard/DashboardAdmin.jsx'
 import ProductAdmin from './components/Admin/Product/ProductAdmin.jsx'
 import AddNewProduct from './components/Admin/Product/AddNewProduct.jsx'
 import EditExistingProduct from './components/Admin/Product/EditExistingProduct.jsx'
+import Payment from './components/payment/Payment.jsx'
 
 
 const router = createBrowserRouter([
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
         element: <EditExistingProduct   />
       }
     ]
+  },
+  {
+    path: '/payment',
+    element: <Payment />
   }
 
 
