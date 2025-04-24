@@ -4,11 +4,14 @@ import { FaStar } from 'react-icons/fa6'
 import toast from 'react-hot-toast';
 import { addToCart } from '../../redux/CartSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setSingleProduct } from '../../redux/ProductSlice';
 
 const ProductCart = ({ product }) => {
     const img = product.image.map((img) => img?.url);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleAddToCart = async (product) => {
         const productId = product._id;
@@ -35,14 +38,16 @@ const ProductCart = ({ product }) => {
 
     }
 
-
+    const handleSingleProduct = (product) => {
+        dispatch(setSingleProduct(product))
+        navigate(`/product/${product._id}`)
+    }
+    
     return (
 
-        <div className="bg-white shadow-md rounded-lg overflow-hidden w-[250px] h-[430px] border-2 p-2">
+        <div className="bg-white shadow-md rounded-lg overflow-hidden w-[250px] h-[430px] border-2 p-2 cursor-pointer">
             <div className="relative">
-                {/* <img src={product.?imgage[0]} alt="" className='w-full h-[300px] object-cover' onClick={() => handleSingleProduct(product)} /> */}
-
-                <img src={img[0]} alt="" className='w-full h-[300px] object-cover' />
+                <img src={img[0]} alt="" className='w-full h-[300px] object-cover' onClick={() => handleSingleProduct(product)} />
 
                 <div className="absolute top-2 left-2 p-1">
                     <h1 className="text-black font-bold">New</h1>

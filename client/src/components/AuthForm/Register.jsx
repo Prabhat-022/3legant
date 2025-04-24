@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -6,46 +6,37 @@ import signupImg from '../../assets/Left.jpg'
 import axios from 'axios'
 import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../../redux/UserSlice'
+import { UsegetAllTheCartItem } from '../../hooks/UsegetAllTheCartItem'
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
   const { register, handleSubmit } = useForm()
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.user)
+
 
   const onSubmit = async (data) => {
-    console.log('data', data)
-
-
-    try {
-      setLoading(true)
-      const res = await axios.post('/api/register', data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true
-      })
-      console.log('Register res:', res.data)
-      setLoading(true)
-
-      if (res.data.success) {
-        // dispatch(setloginUser(res.data.user))
-        localStorage.setItem('user', JSON.stringify(res.data.user))
-        setLoading(false)
-        toast.success(res.data.message)
-        navigate('/login')
-        setLoading(false)
-
-      }
-
-    } catch (error) {
-      console.log('User Login  failed:', error)
-      toast.error(error.response.data.message)
-
-      setLoading(false)
-    }
+    data.email = data.email.toLowerCase()
+    dispatch(registerUser(data))
+    UsegetAllTheCartItem()
   }
 
+  //check the user than switch to the appropriate page
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin') {
+        navigate('/admin')
+      }
+      else if (user.role === 'user') {
+        navigate('/home')
+      }
+    } else {
+      navigate('/')
+    }
+  }, [user, navigate])
 
   return (
     <>
@@ -83,9 +74,7 @@ const Register = () => {
                   <input type="radio" name="role" id="user" value="user" {...register("role")} />
                   <p>User</p>
                 </div>
-
               </div>
-
 
 
               <div className="flex items-center gap-2">

@@ -11,12 +11,12 @@ const router = express.Router();
 router.route('/register').post(userRegister);
 router.route('/login').post(userLogin)
 
-router.route('/upload-profile-img').post(
+router.route('/upload-profile-img').put(
   upload.single(
     "image"
   ),
   authenticate, setProfilePicture);
-router.route('/update-user-info').post(authenticate, updateUserInformations)
+router.route('/update-user-info').put(authenticate, updateUserInformations)
 router.route('/generate-otp').get(generateOtp)
 router.route('/verify-otp').post(verifyOtp)
 router.route('/forgot-password').post(forgotPassword)

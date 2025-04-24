@@ -13,9 +13,8 @@ import { setInput } from '../../redux/UserSlice';
 const Header = () => {
     const [search, setSearch] = useState(false)
     const [Input, setInputs] = useState("")
-    const loginUser = useSelector(state => state.user.user)
+    const { user } = useSelector(state => state.user)
 
-    const user = JSON.parse(localStorage.getItem('user'))
 
     const { Fullname, image } = user
     const dispatch = useDispatch();
@@ -59,12 +58,20 @@ const Header = () => {
 
                         </div>
                         <div className="flex gap-2">
-                            <Link to={
-                                loginUser?.role === "user" || user?.role === "user" ? "/home/profile" : "/admin/admin-dashboard"
-                            } className='cursor-pointer'>
-                                {image ? <img src={image} alt="" className="w-8 h-8 rounded-full" /> : <CgProfile size={25} />}
-                            </Link>
-                            <p>{loginUser?.Fullname || Fullname}</p>
+                            {
+                                user?.role === "user" ? (
+                                    <>
+                                        <Link to={"/profile"} className='cursor-pointer'>
+                                            {image ? <img src={image} alt="" className="w-8 h-8 rounded-full" /> : <CgProfile size={25} />}
+                                        </Link>
+                                        {Fullname && <p>{Fullname}</p>}
+                                    </>
+                                ) : (
+                                    <Link to={"/admin/admin-dashboard"} className='cursor-pointer'>
+                                        <CgProfile size={25} />
+                                    </Link>
+                                )
+                            }
                         </div>
                     </div>
 

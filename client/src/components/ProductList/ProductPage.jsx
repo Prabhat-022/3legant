@@ -1,23 +1,28 @@
 import React from 'react'
+import { FaChevronCircleDown } from 'react-icons/fa';
+import { FaAngleRight, FaChevronDown, FaRegHeart, FaStar } from 'react-icons/fa6';
 import { useSelector } from 'react-redux'
+import NewArrivals from '../Homepage/NewArrivals';
 
 const ProductPage = () => {
-  const product = useSelector((state) => state.product.product)
-  console.log('product', product);
+  const { singleProduct } = useSelector((state) => state.product)
+    
+  console.log('product', singleProduct);
 
-  if (!product) return;
-  const { _id, image, title, description, price, discountPrice, size, color, additionalInfo, category, } = product
+  if (!singleProduct) return;
+  const { _id, image, title, description, price, discountPrice, size, color, additionalInfo, category, } = singleProduct
+  const img = image.map((img) => img?.url);
   return (
     <>
       <div className="">
         <div className="w-full xl:w-full xl:flex xl:gap-2 ">
           <div className="flex flex-wrap xl:w-1/2 xl:flex xl:gap-2 xl:flex-wrap xl:m-4 xl:p-4">
-            <img src={image[0].url} alt="" className='w-[200px] h-[250px] ' />
-            <img src={image[1].url} alt="" className='w-[200px] h-[250px] ' />
-            <img src={image[2].url} alt="" className='w-[200px] h-[250px] ' />
-            <img src={image[3].url} alt="" className='w-[200px] h-[250px] ' />
-            <img src={image[4].url} alt="" className='w-[200px] h-[250px] ' />
-            <img src={image[5].url} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[0]} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[1]} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[2]} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[3]} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[4]} alt="" className='w-[200px] h-[250px] ' />
+            <img src={img[5]} alt="" className='w-[200px] h-[250px] ' />
 
           </div>
 
@@ -62,9 +67,9 @@ const ProductPage = () => {
               </div>
               <p>{color}</p>
               <div className="flex hover:cursor-pointer gap-2  my-4">
-                <img src={image[0].url} alt="" className='w-[100px] h-[100px]  hover:border-2' />
-                <img src={image[1].url} alt="" className='w-[100px] h-[100px]  hover:border-2' />
-                <img src={image[2].url} alt="" className='w-[100px] h-[100px]  hover:border-2' />
+                <img src={img[0]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
+                <img src={img[1]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
+                <img src={img[2]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
               </div>
             </div>
 
@@ -99,7 +104,7 @@ const ProductPage = () => {
             <div className="">
               <div className="flex justify-between mb-2">
                 <h1 className='font-bold'>Additional info</h1>
-                <FaChevronDown />
+                <FaChevronCircleDown />
               </div>
 
 
@@ -121,19 +126,20 @@ const ProductPage = () => {
 
               <div className="flex justify-between mt-3 mb-3">
                 <h1>Questions</h1>
-                <FaChevronDown />
+                <FaChevronCircleDown />
               </div>
               <hr />
 
               <div className="flex justify-between mt-3 mb-3">
                 <h1>Reviews(11)</h1>
-                <FaChevronDown />
+                <FaChevronCircleDown />
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <NewArrivals />
     </>
   )
 }

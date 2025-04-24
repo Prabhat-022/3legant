@@ -48,18 +48,12 @@ const router = createBrowserRouter([
         path: 'shop',
         element: <Shop />
       },
-      {
-        path: 'profile',
-        element: <Profile />
-      },
+
       {
         path: 'edit-profile',
         element: <EditProfile />
       },
-      {
-        path: 'product',
-        element: <ProductPage />
-      },
+
       {
         path: 'about',
         element: <About />
@@ -68,6 +62,31 @@ const router = createBrowserRouter([
     ]
 
   },
+  //product routes
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+
+      {
+        path: 'product/:id',
+        element: <ProductPage />
+      }
+    ]
+  },
+
+  //profile routes 
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/profile',
+        element: <Profile />
+      },
+    ]
+  },
+
   {
     path: '/cart',
     element: <CartLayout />,
@@ -76,13 +95,13 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <ShoppingCart />
       }
-      ,{
-        path:'checkout',
-        element:<CheckoutDetails/>
+      , {
+        path: 'checkout',
+        element: <CheckoutDetails />
       }
-      ,{
-        path:'order-completed',
-        element:<OrderCompleted/>
+      , {
+        path: 'order-completed',
+        element: <OrderCompleted />
       }
     ]
   },
@@ -96,15 +115,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'admin-product',
-        element: <ProductAdmin   />,
+        element: <ProductAdmin />,
       },
       {
         path: 'addnew-product',
-        element: <AddNewProduct   />
+        element: <AddNewProduct />
       },
       {
         path: 'edit-product',
-        element: <EditExistingProduct   />
+        element: <EditExistingProduct />
       }
     ]
   },

@@ -5,9 +5,14 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import axios from "axios"
 import toast from "react-hot-toast"
+import { useSelector } from "react-redux"
 
 const CheckoutDetails = () => {
     const [loading, setLoading] = useState(false)
+    const [userdataupdated, setUserdataupdated] = useState(false)
+    const loginUser = useSelector(state => state.user.user)
+    console.log('check loginUser', loginUser)
+
 
     const navigate = useNavigate()
 
@@ -15,31 +20,29 @@ const CheckoutDetails = () => {
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            Firstname: '',
-            Lastname: '',
-            Fullname: '',
-            username: '',
-            email: '',
-            phone: '',
+            Firstname: loginUser?.Firstname,
+            Lastname: loginUser?.Lastname,
+            Fullname: loginUser?.Fullname,
+            username: loginUser?.username,
+            email: loginUser?.email,
+            phone: loginUser?.phone,
             address: {
-                shoppingaddress: '',
-                streetaddress: '',
-                country: '',
-                townorcity: '',
-                state: '',
-                zipCode: '',
+                shoppingaddress: loginUser?.address[0]?.shoppingaddress,
+                streetaddress: loginUser?.address[0]?.streetaddress,
+                country: loginUser?.address[0]?.country,
+                townorcity: loginUser?.address[0]?.townorcity,
+                state: loginUser?.address[0]?.state,
+                zipCode: loginUser?.address[0]?.zipCode,
             },
             paymentDetails: {
-                cardnumber: '',
-                expirydate: '',
-                cvv: '',
+                cardnumber: loginUser?.paymentDetails?.cardnumber,
+                expirydate: loginUser?.paymentDetails?.expirydate,
+                cvv: loginUser?.paymentDetails?.cvv,
             }
         },
     })
 
     const onSubmit = (data) => {
-        console.log('button submitted')
-        console.log(data)
         try {
             setLoading(true)
             const res = axios.post('/api/update-user-info', data)
@@ -49,7 +52,7 @@ const CheckoutDetails = () => {
             if (res.data.success) {
                 setLoading(false)
                 toast.success(res.data.message)
-                navigate('/home/profile')
+                navigate('/payment')
             }
         } catch (error) {
             console.log(error)
@@ -175,10 +178,8 @@ const CheckoutDetails = () => {
                             </div>
 
                             <div className="mt-4">
-                                <Link to={'/payment'}>
-                                    <button type="submit"
-                                        className="text-white bg-[#070808] hover:bg-[070808] p-3 rounded w-full">{loading ? 'Loading...' : 'Place Order'}</button>
-                                </Link>
+                                <button type="submit"
+                                    className="text-white bg-[#070808] hover:bg-[070808] p-3 rounded w-full">{loading ? 'Loading...' : 'Place Order'}</button>
 
                             </div>
                         </form>

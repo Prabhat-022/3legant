@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 //update user info 
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
+//user register
 export const userRegister = async (req, res) => {
     try {
 
@@ -66,6 +67,7 @@ export const userRegister = async (req, res) => {
     }
 
 }
+
 
 export const userLogin = async (req, res) => {
 
@@ -229,7 +231,7 @@ export const setProfilePicture = async (req, res) => {
 
 export const updateUserInformations = async (req, res) => {
     try {
-        const { Firstname, Lastname, username, Fullname, email, phone, address, role } = req.body;
+        const { Firstname, Lastname, username, Fullname, email, phone, role } = req.body;
 
         const user = await User.findById(req.user.userId)
 
@@ -240,7 +242,6 @@ export const updateUserInformations = async (req, res) => {
             user.username = username.toLowerCase();
             user.email = email;
             user.phone = phone;
-            user.address = address;
             user.role = role;
             await user.save()
         }

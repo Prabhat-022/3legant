@@ -1,21 +1,17 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/UserSlice'
 
 const Profile = () => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    const {_id, role, Fullname, email, address, phone,username, image,  } = user
+    const { user } = useSelector(state => state.user)
+    const {_id, role, Fullname, email, phone,username, image,  } = user || {}
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleLogout= async()=>{
-        try {
-            const res = await axios.post('/api/logout')
-            console.log(res)
-            localStorage.removeItem('user')
-            navigate('/login')
-        } catch (error) {
-            console.log(error)
-        }
+        dispatch(logout())
+        navigate('/login')
     }
 
   return (
@@ -34,7 +30,7 @@ const Profile = () => {
             </div>
             <div className="flex items-center gap-2">
                 <p className="font-bold">Address:</p>
-                <p className="text-gray-600">{address}</p>
+                <p className="text-gray-600">Adress</p>
             </div>
             <div className="flex items-center gap-2">
                 <p className="font-bold">Phone:</p>

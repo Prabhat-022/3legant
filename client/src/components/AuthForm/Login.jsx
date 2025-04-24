@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import signupImg from '../../assets/Left.jpg'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
-import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom'
-import { setuserLogin } from '../../redux/UserSlice'
-import { useDispatch } from 'react-redux'
+import { loginUser } from '../../redux/UserSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { UsegetAllTheCartItem } from '../../hooks/UsegetAllTheCartItem'
 
 const Login = () => {
@@ -19,45 +17,26 @@ const Login = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.user)
+
     const onSubmit = async (data) => {
         data.email = data.email.toLowerCase()
-        try {
-            setLoading(true)
-            const res = await axios.post('/api/login', data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true
-            })
-            setLoading(false)
-
-            if (res.data.success) {
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-                setLoading(false)
-                dispatch(setuserLogin(res.data.user))
-                toast.success(res.data.message)
-
-
-                if (res.data.user.role === 'admin') {
-                    navigate('/admin')
-                }
-                else {
-                    navigate('/home')
-                }
-                UsegetAllTheCartItem()
-
-            }
-            else {
-                toast.error(res.data.message)
-                setLoading(false)
-            }
-
-        } catch (error) {
-            console.log('User Login  failed:', error)
-            toast.error(error.response.data.message)
-            setLoading(false)
-        }
+        dispatch(loginUser(data))
+        UsegetAllTheCartItem()
     }
+
+    useEffect(() => {
+        if (user) {
+            if (user.role === 'admin') {
+                navigate('/admin')
+            }
+            else if (user.role === 'user') {
+                navigate('/home')
+            }
+        } else {
+            navigate('/login')
+        }
+    }, [user, navigate])
 
     return (
         <>
