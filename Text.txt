@@ -6,8 +6,9 @@ solution:  npx kill-port 3000
 Todo List -------> 
 1) fix the payment page
 2) upload the project on the vercel
-3) optimize the the side 
+3) optimize the the side                                     ->  {done}
 4) optimized for mobile device 
 5) fix the image slider page 
 6) adject the shopping card for mobile device 
 7) when go on checkout page than fetch the user infomation form backend 
+8) In the shop page when click on the show more button the shop infinite scroll should be 

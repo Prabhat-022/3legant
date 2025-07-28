@@ -13,10 +13,9 @@ import { setInput } from '../../redux/UserSlice';
 const Header = () => {
     const [search, setSearch] = useState(false)
     const [Input, setInputs] = useState("")
-    const { user } = useSelector(state => state.user)
+    const { user,Fullname, image } = useSelector(state => state?.user) || {}
 
 
-    const { Fullname, image } = user
     const dispatch = useDispatch();
 
     if (Input) {
@@ -52,11 +51,13 @@ const Header = () => {
                         }
                         <h1 className='cursor-pointer'> <CiSearch size={25} onClick={() => setSearch(!search)} /></h1>
 
-                        <div className="relative " onClick={handleOpenTabCart}>
+                        {/*shopping  cart */}
+                        <div className="relative cursor-pointer " onClick={handleOpenTabCart}>
                             <Link to={""} className='cursor-pointer ' ><CgShoppingCart size={25} /></Link>
                             {/* <p className='absolute  left-2.5 bottom-4 text-red-600 font-bold'>{product.length}</p> */}
 
                         </div>
+
                         <div className="flex gap-2">
                             {
                                 user?.role === "user" ? (

@@ -14,7 +14,7 @@ const CartNavigation = () => {
                             <h1 className="">1</h1>
 
                         </div>
-                        <NavLink to={'/cart'} className={({ isActive }) => isActive ? "text-black border-b-[2px] border-green-500" : "text-gray-500"}>Shopping cart</NavLink>
+                        <NavLink to={'/cart'} className={({ isActive }) => isActive ? "text-black border-b-[2px] border-green-500" : "text-gray-500"}>Shopping Cart</NavLink>
                     </div>
                 </div>
 

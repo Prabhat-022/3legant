@@ -47,8 +47,25 @@ export const userRegister = async (req, res) => {
             role
         })
 
+        // set the token also 
+
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                role: user.role
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1d'
+            }
+        )
+
         //send the message for user 
-        res.status(201).json({
+        res.status(201).cookie("token", token, {
+            maxAge: 1 * 24 * 60 * 1000,
+            httpOnly: true,
+            sameSite: 'strict'
+        } ).json({
             message: "-> wow, User Registerd successfully",
             success: true,
             user

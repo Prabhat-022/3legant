@@ -8,7 +8,7 @@ const Simpleunique = () => {
     return (
         <>
 
-            <div className="m-2 p-2 ">
+            <div className="m-2 p-2 shadow">
 
                 <div className=" flex items-center justify-between gap-4 ">
                     <div className="m-4 ">
@@ -17,7 +17,7 @@ const Simpleunique = () => {
                     </div>
 
                     <div className="">
-                        <p className=''><span className='font-bold'>3legant</span>
+                        <p className=''><span className='font-bold'> 3legant </span>
                             is a gift & decorations store based in HCMC, Vietnam, Est since 2019
                         </p>
 
@@ -60,9 +60,6 @@ const Simpleunique = () => {
                     </div>
 
                 </div>
-
-
-
 
             </div>
 

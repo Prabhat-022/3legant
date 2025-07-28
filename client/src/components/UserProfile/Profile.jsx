@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../redux/UserSlice'
 
 const Profile = () => {
-    const { user } = useSelector(state => state.user)
+    const { user } = useSelector(state => state?.user)
+
     const {_id, role, Fullname, email, phone,username, image,  } = user || {}
     const navigate = useNavigate()
     const dispatch = useDispatch()

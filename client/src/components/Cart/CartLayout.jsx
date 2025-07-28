@@ -6,7 +6,7 @@ import Footer from '../Layout/Footer'
 
 const CartLayout = () => {
     return (
-        <div>
+        <div className=''>
             <Header/>
             <CartNavigation />
             <Outlet />

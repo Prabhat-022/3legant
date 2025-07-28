@@ -22,6 +22,11 @@ import AddNewProduct from './components/Admin/Product/AddNewProduct.jsx'
 import EditExistingProduct from './components/Admin/Product/EditExistingProduct.jsx'
 import Payment from './components/payment/Payment.jsx'
 
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { fetchProducts } from './redux/ProductSlice'
+
+
 
 const router = createBrowserRouter([
   {
@@ -136,6 +141,11 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
   return (
     <>
       <RouterProvider router={router} />

@@ -10,9 +10,10 @@ import ProductCart from '../ProductList/ProductCart';
 
 const Shop = () => {
     const [category, setCategory] = useState('All');
-    console.log('category', category);
 
     const product = useSelector((state) => state.product.product)
+    console.log('product', product);
+
     const input = useSelector(state => state.user?.input)
     const serchPrduct = product.filter(item => item.title.toLowerCase().includes(input.toLowerCase()))
 
@@ -31,14 +32,13 @@ const Shop = () => {
         return false;
     });
 
-    console.log('filteredProducts', filteredProducts);
 
     return (
         <>
 
             <div className=" p-4">
                 <div className="relative flex items-center justify-center w-full">
-                    <img src={shopheader} alt="" />
+                    <img src={shopheader} alt="" className='w-full h-auto lg:mx-24' />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center bg-opacity-50">
                         <h1 className='p-1'>Home {'>'} Shop</h1>
                         <h1 className='font-bold text-4xl p-1'>Shop Page</h1>
@@ -113,8 +113,8 @@ const Shop = () => {
 
                 </div>
 
-                <div className="flex items-center justify-center ">
-                    <button className='border cursor-pointer rounded-full p-4 px-10 text-bold text-xl shadow'>Show more</button>
+                <div className="flex items-center justify-center my-10 ">
+                    <button className='border cursor-pointer rounded-full p-4 px-10 text-bold text-xl shadow hover:bg-[#e2e8f0]'>Show more</button>
                 </div>
 
             </div>

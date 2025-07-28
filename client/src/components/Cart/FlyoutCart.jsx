@@ -56,8 +56,9 @@ const FlyoutCart = () => {
     return (
         <>
             {/* <Index /> */}
-            <div className={`fixed top-0 right-0 h-screen w-[400px] bg-white p-4 transform transition-transform ease-in-out duration-300
-            ${statusTab === false ? 'translate-x-full' : ""}`}>
+            <div className={`fixed top-15 right-24 bottom-15  h-[90vh] w-[400px] bg-white p-4 transition-all duration-500 ease-in-out border
+            ${statusTab === false ? 'translate-x-full opacity-0' : "translate-x-0 opacity-100"}
+            `}>
 
                 <div className="flex flex-col h-full p-4 overflow-y-scroll scrollbar-hide">
                     <div className="flex justify-between items-center p-4  mb-4">

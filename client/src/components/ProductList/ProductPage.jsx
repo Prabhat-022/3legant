@@ -3,18 +3,21 @@ import { FaChevronCircleDown } from 'react-icons/fa';
 import { FaAngleRight, FaChevronDown, FaRegHeart, FaStar } from 'react-icons/fa6';
 import { useSelector } from 'react-redux'
 import NewArrivals from '../Homepage/NewArrivals';
+import { IoStarHalfOutline } from "react-icons/io5";
 
 const ProductPage = () => {
   const { singleProduct } = useSelector((state) => state.product)
-    
+
   console.log('product', singleProduct);
 
   if (!singleProduct) return;
   const { _id, image, title, description, price, discountPrice, size, color, additionalInfo, category, } = singleProduct
+
+  console.log('img', image)
   const img = image.map((img) => img?.url);
   return (
     <>
-      <div className="">
+      <div className="lg:mx-24">
         <div className="w-full xl:w-full xl:flex xl:gap-2 ">
           <div className="flex flex-wrap xl:w-1/2 xl:flex xl:gap-2 xl:flex-wrap xl:m-4 xl:p-4">
             <img src={img[0]} alt="" className='w-[200px] h-[250px] ' />
@@ -27,13 +30,17 @@ const ProductPage = () => {
           </div>
 
           <div className="m-4 xl:w-1/2 xl:m-4 xl:p-4 lg:w-1/2 lg:m-4 lg:p-4  md:w-1/2 md:m-4 md:p-4">
-            <div className="flex gap-2 item-center ">
-              <div className="flex">
-                <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+            <div className="flex gap-2 item-center">
+              <div className="flex items-center justify-center">
+                <FaStar className='text-yellow-400' />
+                <FaStar className='text-yellow-400' />
+                <FaStar className='text-yellow-400' />
+                <FaStar className='text-yellow-400' />
+                <IoStarHalfOutline className='text-yellow-400' />
+                <h1>11 Reviews</h1>
 
               </div>
               <div className="">
-                <h1>11 Reviews</h1>
 
               </div>
             </div>
@@ -47,8 +54,8 @@ const ProductPage = () => {
             </div>
 
             <div className="flex gap-4 my-2 text-xl">
-              <h1 className='font-bold'>{price}</h1>
-              <h1 className='line-through'>{discountPrice}</h1>
+              <h1 className='font-bold'> ₹ {price}</h1>
+              <h1 className='line-through'>₹ {discountPrice}</h1>
             </div>
 
             <hr />
@@ -137,9 +144,13 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
+
+        {/* newArrivals */}
+        <div className="">
+          <NewArrivals />
+        </div>
       </div>
 
-      <NewArrivals />
     </>
   )
 }
