@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineBars } from "react-icons/ai";
 import { toggleStatusTab } from '../../redux/CartSlice';
 import { setInput } from '../../redux/UserSlice';
+import { IoCloseSharp } from "react-icons/io5";
 
 const Header = () => {
     const [search, setSearch] = useState(false)
     const [Input, setInputs] = useState("")
-    const { user,Fullname, image } = useSelector(state => state?.user) || {}
+    const [toggleMenu, setToggleMenu] = useState(false)
+    const { user, Fullname, image } = useSelector(state => state?.user) || {}
 
 
     const dispatch = useDispatch();
@@ -24,13 +26,17 @@ const Header = () => {
     const handleOpenTabCart = () => {
         dispatch(toggleStatusTab());
     }
+
+    const handleMenuToggle = () => {
+        setToggleMenu(!toggleMenu)
+    }
     return (
         <>
             <div className="xl:mx-24 lg:mx-24 md:mx-24">
                 <div className="flex justify-between items-center px-2 max-w-full p-5 ">
 
-                    <div className="flex items-center gap-2">
-                        <AiOutlineBars size={25} className='xl:hidden lg:hidden md:hidden' />
+                    <div className="flex items-center justify-center gap-2">
+                        <AiOutlineBars size={23} className='xl:hidden lg:hidden md:hidden' onClick={handleMenuToggle} />
                         <Link to={"/"} className='text-3xl font-bold'>3legant</Link>
                     </div>
 
@@ -68,7 +74,7 @@ const Header = () => {
                                         {Fullname && <p>{Fullname}</p>}
                                     </>
                                 ) : (
-                                    <Link to={"/admin/admin-dashboard"} className='cursor-pointer'>
+                                    <Link to={"/login"} className='cursor-pointer'>
                                         <CgProfile size={25} />
                                     </Link>
                                 )
@@ -77,6 +83,32 @@ const Header = () => {
                     </div>
 
                 </div>
+
+
+                {/* menu for mobile device */}
+                {
+                    toggleMenu && window.innerWidth < 768 && (
+                        <div className="fixed top-16 left-0 bg-white shadow-lg rounded-md h-[500px] w-[240px] lg:hidden" onMouseLeave={handleMenuToggle}>
+                            <div className="p-2 ">
+                            <IoCloseSharp size={25} onClick={handleMenuToggle} className="absolute top-2 right-2 cursor-pointer"/>
+                                <ul>
+                                    <li onClick={handleMenuToggle} className="cursor-pointer p-2 text-xl font-serif">
+                                        <NavLink to={"/"}>Home</NavLink>
+                                    </li>
+                                    <li onClick={handleMenuToggle} className="cursor-pointer p-2 text-xl font-serif">
+                                        <NavLink to={"shop"}>Shop</NavLink>
+                                    </li>
+                                    <li onClick={handleMenuToggle} className="cursor-pointer p-2 text-xl font-serif">
+                                        <NavLink to={"product"}>Product</NavLink>
+                                    </li>
+                                    <li onClick={handleMenuToggle} className="cursor-pointer p-2 text-xl font-serif">
+                                        <NavLink to={"about"}>About</NavLink>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </>
     )

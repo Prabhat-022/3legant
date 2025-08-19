@@ -31,7 +31,7 @@ const FlyoutCart = () => {
                     withCredentials: true
                 }
             )
-            if(response.data.success){
+            if (response.data.success) {
                 dispatch(removeProduct(id))
                 toast.success('Product removed from cart')
             }
@@ -43,10 +43,10 @@ const FlyoutCart = () => {
         }
     }
 
-    const updateCartItemQuantity =async(productId, quantity)=>{
+    const updateCartItemQuantity = async (productId, quantity) => {
         console.log('cart update id', productId)
         try {
-            const response = await axios.post(`/api/cart`, {productId, quantity})
+            const response = await axios.post(`/api/cart`, { productId, quantity })
 
             console.log('->Cart item updated', response.data)
         } catch (error) {
@@ -69,48 +69,60 @@ const FlyoutCart = () => {
                         </div>
                     </div>
 
-                    <table className="table-auto w-full h-full overflow-hidden scrollbar-hide ">
+                    {
+                        products?.length > 0 ? (
+                            <>
 
-                        {
-                            products?.map((item) => (
-                                <>
-                                    <tr key={item?._id}>
-                                        <td className='flex gap-3 justify-between border-b-1 p-1'>
-                                            <div className="flex gap-3">
+                                <table className="table-auto w-full h-full overflow-hidden scrollbar-hide ">
 
-                                                <img src={item?.image[0].url} alt="" className='w-[100px] h-[100px]' />
+                                    {
 
-                                                <div className="">
-                                                    <h1 className='font-bold font-mono m-1'>{item?.title.split(" ").slice(0, 2).join(" ")}</h1>
-                                                    <h1 className='text-[#898f98] m-1'>Color: {item?.color}</h1>
+                                        products?.map((item) => (
+                                            <>
+                                                <tr key={item?._id}>
+                                                    <td className='flex gap-3 justify-between border-b-1 p-1'>
+                                                        <div className="flex gap-3">
+
+                                                            <img src={item?.image[0].url} alt="" className='w-[100px] h-[100px]' />
+
+                                                            <div className="">
+                                                                <h1 className='font-bold font-mono m-1'>{item?.title.split(" ").slice(0, 2).join(" ")}</h1>
+                                                                <h1 className='text-[#898f98] m-1'>Color: {item?.color}</h1>
 
 
-                                                    <div className="border flex gap-3  items-center m-1 justify-center">
-                                                        <button className="font-bold cursor-pointer" onClick={() => updateCartItemQuantity(item._id, item.quantity - 1)}><RiSubtractFill /></button>
+                                                                <div className="border flex gap-3  items-center m-1 justify-center">
+                                                                    <button className="font-bold cursor-pointer" onClick={() => updateCartItemQuantity(item._id, item.quantity - 1)}><RiSubtractFill /></button>
 
-                                                        <h1>{item.quantity}</h1>
+                                                                    <h1>{item.quantity}</h1>
 
-                                                        <button className="font-bold cursor-pointer" onClick={() => updateCartItemQuantity(item._id, item.quantity + 1)}><FiPlus /></button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                                    <button className="font-bold cursor-pointer" onClick={() => updateCartItemQuantity(item._id, item.quantity + 1)}><FiPlus /></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                            <div className="flex flex-col justify-between items-center py-4">
-                                                <h1 className='text-green-600 text-lg font-bold'>${item.price}</h1>
-                                                <button className="font-bold cursor-pointer" onClick={() => handleRemoveProduct(item._id)}><AiOutlineClose /></button>
-                                            </div>
-                                        </td>
+                                                        <div className="flex flex-col justify-between items-center py-4">
+                                                            <h1 className='text-green-600 text-lg font-bold'>${item.price}</h1>
+                                                            <button className="font-bold cursor-pointer" onClick={() => handleRemoveProduct(item._id)}><AiOutlineClose /></button>
+                                                        </div>
+                                                    </td>
 
-                                    </tr>
+                                                </tr>
 
-                                </>
-                            ))
-                        }
+                                            </>
+                                        ))
+                                    }
 
-                    </table>
+                                </table>
 
-                    <button className="bg-black text-white p-3 rounded-full w-full">Checkout</button>
-                    <Link to={'/cart'} className="underline cursor-pointer w-full p-3 text-center">View Cart</Link>
+                                <button className="bg-black text-white p-3 rounded-full w-full">Checkout</button>
+                                <Link to={'/cart'} className="underline cursor-pointer w-full p-3 text-center">View Cart</Link>
+                            </>
+                        ) : (
+                            <div className="flex items-center justify-center h-full p-4">
+                                <h1 className="text-xl font-bold text-[#898f98]">Your cart is empty</h1>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 

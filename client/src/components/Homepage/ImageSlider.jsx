@@ -33,13 +33,13 @@ const ImageSlider = () => {
 
   return (
     <>
-      <div className="relative w-full h-[450px]  shadow-lg">
+      <div className="relative lg:w-full lg:h-[450px] shadow-lg h-[150px]">  
         <main className="w-full h-full flex items-center justify-between p-10 m-5">
           <button onClick={handlePreviousImg} className='text-2xl cursor-pointer absolute top-1/2 left-5 z-10 bg-white p-2 rounded-full shadow-md'>
             <GrCaretPrevious />
           </button>
 
-          <img src={currentImg} alt="" className='absolute inset-0 w-full h-full object-cover' />
+          <img src={currentImg} alt="" className='absolute inset-0 lg:w-full lg:h-full object-cover' />
 
           <button onClick={handleNextImg} className='text-2xl cursor-pointer absolute top-1/2 right-5 z-10 bg-white p-2 rounded-full shadow-md'>
             <GrCaretNext />

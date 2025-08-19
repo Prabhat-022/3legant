@@ -7,11 +7,8 @@ import isAdmin from '../middleware/isAdmin.js';
 
 const router = express.Router();
 
-
-
-
-router.route('/products').get(authenticate, getAllTheProducts);
-router.route('/products/:id').get(authenticate, getSingleProduct)
+router.route('/products').get(getAllTheProducts);
+router.route('/products/:id').get(getSingleProduct);
 
 router.route("/product").post(
     upload.array('image', 10), authenticate, isAdmin, addNewProducts)

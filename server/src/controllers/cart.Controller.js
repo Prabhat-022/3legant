@@ -1,16 +1,16 @@
 import { Cart } from "../model/cart.Model.js"
 import { Product } from "../model/product.Model.js"
 
+
+
 export const getAllTheCartItem = async (req, res) => {
     try {
-    
-        let cartItem = await Cart.findOne({ userId: req.user.userId });
+        let cartItem = await Cart.findOne({userId: req.user.userId});
 
         if (!cartItem) {
             return res.status(400).json({
                 message: "-> Not cart item exist",
                 success: false,
-
             })
         }
 

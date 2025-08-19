@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser';
+import morgan from 'morgan'
 import dotenv from 'dotenv';
 import userRoute from'../src/routes/userRoute.js'
 import cartRoute from'../src/routes/cartRoute.js'
@@ -13,11 +14,18 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 
+//connect to the database 
+connectDB();
+
 //middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use(bodyParser.json());
+app.use(morgan('dev'));
+
+
+
 
 const corsOptions = {
     origin: "http://localhost:5173",
@@ -39,6 +47,4 @@ app.use('/api', paymentRoute)
 
 app.listen(port, () => {
     console.log(`-> Hi, server is start: ${port}`)
-    connectDB();
-
 })

@@ -65,7 +65,7 @@ export const userRegister = async (req, res) => {
             maxAge: 1 * 24 * 60 * 1000,
             httpOnly: true,
             sameSite: 'strict'
-        } ).json({
+        }).json({
             message: "-> wow, User Registerd successfully",
             success: true,
             user
@@ -92,6 +92,8 @@ export const userLogin = async (req, res) => {
         //getting the input data form users 
         const { email, username, password } = req.body;
 
+        console.log('data', req.body)
+
         //check the user data is coming or not 
         if (!email && !username || !password) {
             return res.status(400).json({
@@ -115,7 +117,8 @@ export const userLogin = async (req, res) => {
                 success: false,
             })
         }
-
+        //extract data from the existing users
+        const { _id, Fullname, role, address, paymentDetails, image } = existedUser;
         const options = {
             httpOnly: true,
             secure: true
@@ -142,7 +145,16 @@ export const userLogin = async (req, res) => {
             message: "-> wow, User login successful",
             success: true,
             token,
-            user: existedUser
+            user: {
+                _id,
+                Fullname,
+                username,
+                email,
+                role,
+                address,
+                paymentDetails,
+                image
+            }
         })
 
     } catch (error) {
@@ -194,6 +206,7 @@ export const setProfilePicture = async (req, res) => {
 
         //take userid by token data 
         const profileImagePath = req.file.path;
+        console.log('profileImagePath', profileImagePath)
 
 
         if (!profileImagePath) {

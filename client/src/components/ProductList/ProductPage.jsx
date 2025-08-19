@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaChevronCircleDown } from 'react-icons/fa';
 import { FaAngleRight, FaChevronDown, FaRegHeart, FaStar } from 'react-icons/fa6';
 import { useSelector } from 'react-redux'
@@ -6,7 +6,8 @@ import NewArrivals from '../Homepage/NewArrivals';
 import { IoStarHalfOutline } from "react-icons/io5";
 
 const ProductPage = () => {
-  const { singleProduct } = useSelector((state) => state.product)
+  const [oneImgShow, setOneImgShow] = useState(false)
+  const { singleProduct } = useSelector((state) => state.product);
 
   console.log('product', singleProduct);
 
@@ -15,17 +16,27 @@ const ProductPage = () => {
 
   console.log('img', image)
   const img = image.map((img) => img?.url);
+
+  const handleOneImgShow = (index) => {
+    setOneImgShow(index)
+  }
   return (
     <>
       <div className="lg:mx-24">
-        <div className="w-full xl:w-full xl:flex xl:gap-2 ">
+        <div className="w-full xl:w-full xl:flex xl:gap-2">
           <div className="flex flex-wrap xl:w-1/2 xl:flex xl:gap-2 xl:flex-wrap xl:m-4 xl:p-4">
-            <img src={img[0]} alt="" className='w-[200px] h-[250px] ' />
-            <img src={img[1]} alt="" className='w-[200px] h-[250px] ' />
-            <img src={img[2]} alt="" className='w-[200px] h-[250px] ' />
-            <img src={img[3]} alt="" className='w-[200px] h-[250px] ' />
-            <img src={img[4]} alt="" className='w-[200px] h-[250px] ' />
-            <img src={img[5]} alt="" className='w-[200px] h-[250px] ' />
+            {
+              oneImgShow ? <div className='w-full h-full cursor-pointer border shadow '>
+                <img src={img[oneImgShow]} alt="" className='w-full h-full ' />
+              </div> : <>
+                <img src={img[0]} alt="" className='w-[200px] h-[250px] ' />
+                <img src={img[1]} alt="" className='w-[200px] h-[250px] ' />
+                <img src={img[2]} alt="" className='w-[200px] h-[250px] ' />
+                <img src={img[3]} alt="" className='w-[200px] h-[250px] ' />
+                <img src={img[4]} alt="" className='w-[200px] h-[250px] ' />
+                <img src={img[5]} alt="" className='w-[200px] h-[250px] ' />
+              </>
+            }
 
           </div>
 
@@ -74,9 +85,9 @@ const ProductPage = () => {
               </div>
               <p>{color}</p>
               <div className="flex hover:cursor-pointer gap-2  my-4">
-                <img src={img[0]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
-                <img src={img[1]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
-                <img src={img[2]} alt="" className='w-[100px] h-[100px]  hover:border-2' />
+                <img src={img[0]} alt="" className='w-[100px] h-[100px]  hover:border-2' onClick={() => handleOneImgShow(0)}/>
+                <img src={img[1]} alt="" className='w-[100px] h-[100px]  hover:border-2' onClick={() => handleOneImgShow(1)}/>
+                <img src={img[2]} alt="" className='w-[100px] h-[100px]  hover:border-2' onClick={() => handleOneImgShow(2)}/>
               </div>
             </div>
 

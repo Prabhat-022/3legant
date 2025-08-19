@@ -12,20 +12,20 @@ const Offer = () => {
     }
     return (
         <>
-            <div className="xl:mx-24 lg:mx-24 offer" >
+            <div className="xl:mx-24 lg:mx-24 offer " >
                 <div className="flex items-center justify-between bg-slate-300 p-1">
                     <div className="flex flex-col items-center justify-center w-full xl:flex-row lg:flex-row md:flex-row">
-                        <p className="flex items-center justify-center text-2xl xl:text-xl">
-                            <BiSolidOffer className=" text-2xl mx-1" />
+                        <p className="flex items-center justify-center lg:text-2xl xl:text-xl">
+                            <BiSolidOffer className=" lg:text-2xl mx-1 " size={30} />
                             30% off storewide --Limited time!
                         </p>
 
-                        <span className='text-blue-600 underline flex items-center justify-center px-2 cursor-pointer '>Shop Now <FaArrowRightLong className="text-2xl px-1" />
+                        <span className='text-blue-600 underline flex items-center justify-center px-2 cursor-pointer'>Shop Now <FaArrowRightLong className="text-2xl px-1" />
                         </span>
 
                     </div>
-                    <div className="px-4 cursor-pointer " >
-                        <IoClose className='cursor-pointer' onClick={handleCloser}/>
+                    <div className="px-4 cursor-pointer  " >
+                        <IoClose className='cursor-pointer' onClick={handleCloser} size={20}/>
                     </div>
 
 

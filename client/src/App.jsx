@@ -2,7 +2,7 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 import Login from './components/AuthForm/Login'
 import Register from './components/AuthForm/Register'
-import Layout from './components/Layout'
+import Layout from './components/Layout/Layout.jsx'
 import ForgotPassword from './components/AuthForm/ForgotPassword'
 import Index from './components/Homepage/index.jsx'
 import Shop from './components/Shop/Shop.jsx'
@@ -110,28 +110,28 @@ const router = createBrowserRouter([
       }
     ]
   },
-  {
-    path: '/admin',
-    element: <LayoutAdmin />,
-    children: [
-      {
-        path: 'admin-dashboard',
-        element: <DashboardAdmin />
-      },
-      {
-        path: 'admin-product',
-        element: <ProductAdmin />,
-      },
-      {
-        path: 'addnew-product',
-        element: <AddNewProduct />
-      },
-      {
-        path: 'edit-product',
-        element: <EditExistingProduct />
-      }
-    ]
-  },
+  // {
+  //   path: '/admin',
+  //   element: <LayoutAdmin />,
+  //   children: [
+  //     {
+  //       path: 'admin-dashboard',
+  //       element: <DashboardAdmin />
+  //     },
+  //     {
+  //       path: 'admin-product',
+  //       element: <ProductAdmin />,
+  //     },
+  //     {
+  //       path: 'addnew-product',
+  //       element: <AddNewProduct />
+  //     },
+  //     {
+  //       path: 'edit-product',
+  //       element: <EditExistingProduct />
+  //     }
+  //   ]
+  // },
   {
     path: '/payment',
     element: <Payment />

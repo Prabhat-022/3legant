@@ -1,9 +1,9 @@
 import React from 'react'
-import Header from './Layout/Header'
-import Footer from './Layout/Footer'
+import Header from './Header'
+import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
-import Offer from './Layout/Offer'
-import FlyoutCart from './Cart/FlyoutCart'
+import Offer from './Offer'
+import FlyoutCart from '../Cart/FlyoutCart'
 
 const Layout = () => {
     return (
