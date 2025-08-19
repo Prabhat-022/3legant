@@ -20,12 +20,10 @@ connectDB();
 //middleware 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-
-
-
 
 const corsOptions = {
     origin: "http://localhost:5173",
