@@ -9,13 +9,8 @@ import { useSelector } from "react-redux"
 
 const CheckoutDetails = () => {
     const [loading, setLoading] = useState(false)
-    const [userdataupdated, setUserdataupdated] = useState(false)
     const loginUser = useSelector(state => state.user.user)
-    console.log('check loginUser', loginUser)
-
-
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
 
 
     const { register, handleSubmit } = useForm({
@@ -26,14 +21,16 @@ const CheckoutDetails = () => {
             username: loginUser?.username,
             email: loginUser?.email,
             phone: loginUser?.phone,
-            address: {
+            address: [
+                {
                 shoppingaddress: loginUser?.address[0]?.shoppingaddress,
                 streetaddress: loginUser?.address[0]?.streetaddress,
                 country: loginUser?.address[0]?.country,
-                townorcity: loginUser?.address[0]?.townorcity,
+                towncity: loginUser?.address[0]?.towncity,
                 state: loginUser?.address[0]?.state,
                 zipCode: loginUser?.address[0]?.zipCode,
-            },
+                }
+            ],
             paymentDetails: {
                 cardnumber: loginUser?.paymentDetails?.cardnumber,
                 expirydate: loginUser?.paymentDetails?.expirydate,
@@ -42,19 +39,22 @@ const CheckoutDetails = () => {
         },
     })
 
-    const onSubmit = (data) => {
+    const onSubmit =async (data) => {
+        console.log('data', data)
         try {
             setLoading(true)
-            const res = axios.post('/api/update-user-info', data)
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/update-user-info`, data)
             console.log('Response:', res)
 
 
             if (res.data.success) {
                 setLoading(false)
                 toast.success(res.data.message)
-                navigate('/payment')
+                // navigate('/payment')
             }
         } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
             console.log(error)
         }
     }
@@ -116,7 +116,7 @@ const CheckoutDetails = () => {
 
                                 <div className="flex flex-col mb-2">
                                     <label htmlFor="" className="text-xs mb-2">CITY/TOWN*</label>
-                                    <input type="text" placeholder="Town/City" className="p-1 px-2 border-2 w-full mb-1 outline-none cursor-pointer rounded-lg" {...register('address.townorcity')} />
+                                    <input type="text" placeholder="Town/City" className="p-1 px-2 border-2 w-full mb-1 outline-none cursor-pointer rounded-lg" {...register('address.towncity')} />
                                 </div>
 
 

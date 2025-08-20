@@ -1,11 +1,10 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { FaStar } from 'react-icons/fa6'
-import toast from 'react-hot-toast';
-import { addToCart } from '../../redux/CartSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setSingleProduct } from '../../redux/ProductSlice';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const ProductCart = ({ product }) => {
     const img = product.image.map((img) => img?.url);
@@ -13,36 +12,33 @@ const ProductCart = ({ product }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleAddToCart = async (product) => {
-        const productId = product._id;
-        const quantity = 1;
-        try {
-            setLoading(true)
-            const res = await axios.post("/api/cart", { productId, quantity });
-            console.log(res)
 
-            if (res.data.success) {
-                toast.success(res.data.message);
-                setLoading(false)
-                dispatch(addToCart([product]))
-
-            }
-            else {
-                toast.error(res.data.message);
-                setLoading(false)
-            }
-        } catch (error) {
-            toast.error("Something went wrong");
-            console.log(error)
-        }
-
-    }
 
     const handleSingleProduct = (product) => {
         dispatch(setSingleProduct(product))
         navigate(`/product/${product._id}`)
     }
-    
+
+    const addToCart = async (product, quantity) => {
+        //save in database
+        if (product) {
+            try {
+                setLoading(true)
+                const res = await axios.post("/api/cart", { productId: product._id, quantity });
+
+                if (res.data.success) {
+                    toast.success(res.data.message);
+                    setLoading(false)
+                    //for update the ui
+                    dispatch(addToCart([product]))
+                }
+            } catch (error) {
+                console.log(error)
+                toast.error("Something went wrong");
+            }
+        }
+    }
+
     return (
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden w-[250px] h-[430px] border-2 p-2 cursor-pointer">
@@ -63,7 +59,7 @@ const ProductCart = ({ product }) => {
                         <FaStar />
                         <FaStar />
                     </div>
-                    <button className='bg-[#070808] text-white p-2 rounded-md hover:bg-[#162113] hover:text-white cursor-pointer' onClick={() => handleAddToCart(product)} disabled={loading}>Add to Cart {loading && "..."}</button>
+                    <button className='bg-[#070808] text-white p-2 rounded-md hover:bg-[#162113] hover:text-white cursor-pointer' disabled={loading} onClick={() => addToCart(product, "1")}>Add to Cart {loading && "..."}</button>
 
                 </div>
                 <h1 className="text-sm font-bold">{product?.title.split(" ").slice(0, 4).join(" ")}</h1>

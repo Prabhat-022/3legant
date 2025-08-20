@@ -9,12 +9,10 @@ const ProductPage = () => {
   const [oneImgShow, setOneImgShow] = useState(false)
   const { singleProduct } = useSelector((state) => state.product);
 
-  console.log('product', singleProduct);
 
   if (!singleProduct) return;
   const { _id, image, title, description, price, discountPrice, size, color, additionalInfo, category, } = singleProduct
 
-  console.log('img', image)
   const img = image.map((img) => img?.url);
 
   const handleOneImgShow = (index) => {

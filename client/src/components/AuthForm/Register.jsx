@@ -3,12 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import signupImg from '../../assets/Left.jpg'
-import axios from 'axios'
-import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../redux/UserSlice'
-import { UsegetAllTheCartItem } from '../../hooks/UsegetAllTheCartItem'
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
@@ -21,7 +18,6 @@ const Register = () => {
   const onSubmit = async (data) => {
     data.email = data.email.toLowerCase()
     dispatch(registerUser(data))
-    UsegetAllTheCartItem()
   }
 
   //check the user than switch to the appropriate page

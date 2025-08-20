@@ -3,10 +3,10 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import dotenv from 'dotenv';
-import userRoute from'../src/routes/userRoute.js'
-import cartRoute from'../src/routes/cartRoute.js'
-import productRoute from'../src/routes/productRoute.js'
-import {connectDB} from '../src/config/db.js'
+import userRoute from '../src/routes/userRoute.js'
+import cartRoute from '../src/routes/cartRoute.js'
+import productRoute from '../src/routes/productRoute.js'
+import { connectDB } from '../src/config/db.js'
 import paymentRoute from '../src/routes/paymentRoute.js'
 import cors from 'cors'
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://3legant-steel.vercel.app"],
     credentials: true,
     optionSuccessStatus: 200
 }

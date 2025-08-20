@@ -50,27 +50,14 @@ const userSchema = new mongoose.Schema({
     },
     address:[
         {
-            shoppingaddress:{
-                type:String
-            },
-            
-        },
-        {
+            shoppingaddress:String,
             streetaddress:String,
-
-        },
-        {
-            country:String
-        },
-        {
-            townorcity:String
-        },
-        {
-            state:String
-        },
-        {
+            country:String,
+            towncity:String,
+            state:String,
             zipCode:String
         }
+      
     ],
     paymentDetails:[
         {

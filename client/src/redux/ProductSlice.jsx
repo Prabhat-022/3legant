@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const BaseUrl = "http://localhost:3000/api/v/product"
-
+const BaseUrl = "http://localhost:3000/api"
+  
 
 const initialState = {
   product: [],

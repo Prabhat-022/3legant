@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../redux/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { UsegetAllTheCartItem } from '../../hooks/UsegetAllTheCartItem'
 
 const Login = () => {
 
@@ -22,7 +21,6 @@ const Login = () => {
     const onSubmit = async (data) => {
         data.email = data.email.toLowerCase()
         dispatch(loginUser(data))
-        UsegetAllTheCartItem()
     }
 
     useEffect(() => {

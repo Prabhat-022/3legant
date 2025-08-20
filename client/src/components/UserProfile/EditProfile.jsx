@@ -155,33 +155,32 @@ import React, { useState } from 'react'
 import { 
     User, 
     Mail, 
-    Phone, 
-    MapPin, 
     Shield, 
     Camera, 
     Save, 
     ArrowLeft,
     Upload,
     X,
-    Check,
-    Eye,
-    EyeOff
-} from 'lucide-react'
+    Check} from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const EditProfile = () => {
     // Mock data - replace with actual useSelector and useForm
-    const [user] = useState({
-        _id: "64f5b2c8e4b0f123456789ab",
-        Fullname: "Alexandra Johnson",
-        Firstname: "Alexandra",
-        Lastname: "Johnson",
-        email: "alexandra.johnson@example.com",
-        phone: "+1 (555) 123-4567",
-        username: "alexandra_j",
-        address: "123 Main Street, San Francisco, CA 94105",
-        role: "admin",
-        image: "/api/placeholder/160/160"
-    })
+    // const [users] = useState({
+    //     _id: "64f5b2c8e4b0f123456789ab",
+    //     Fullname: "Alexandra Johnson",
+    //     Firstname: "Alexandra",
+    //     Lastname: "Johnson",
+    //     email: "alexandra.johnson@example.com",
+    //     phone: "+1 (555) 123-4567",
+    //     username: "alexandra_j",
+    //     address: "123 Main Street, San Francisco, CA 94105",
+    //     role: "admin",
+    //     image: "/api/placeholder/160/160"
+    // })
+    const {user} = useSelector((state) => state.user)
 
     const [img, setImg] = useState('')
     const [loading, setLoading] = useState(false)
@@ -200,6 +199,9 @@ const EditProfile = () => {
     })
     const [errors, setErrors] = useState({})
     const [successMessage, setSuccessMessage] = useState('')
+    const navigate = useNavigate()
+
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -264,6 +266,14 @@ const EditProfile = () => {
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 1000))
             console.log('Updated profile:', formData)
+
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/update-user-info`, formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            })
+            console.log(res.data)
             setSuccessMessage('Profile updated successfully!')
             setTimeout(() => setSuccessMessage(''), 3000)
         } catch (error) {
@@ -293,7 +303,7 @@ const EditProfile = () => {
 
     const handleGoBack = () => {
         // Replace with actual navigation
-        alert('Navigate back to profile page')
+        navigate('/profile')
     }
 
     return (
@@ -405,7 +415,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Fullname"
-                                            value={formData.Fullname}
+                                            value={formData.Fullname }
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.Fullname ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your full name"
@@ -422,7 +432,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="username"
-                                            value={formData.username}
+                                            value={formData.username }
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your username"
@@ -439,7 +449,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Firstname"
-                                            value={formData.Firstname}
+                                            value={formData.Firstname }
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your first name"
@@ -453,7 +463,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Lastname"
-                                            value={formData.Lastname}
+                                            value={formData.Lastname }
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your last name"
@@ -477,7 +487,7 @@ const EditProfile = () => {
                                         <input
                                             type="email"
                                             name="email"
-                                            value={formData.email}
+                                            value={formData.email }
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your email address"
@@ -494,7 +504,7 @@ const EditProfile = () => {
                                         <input
                                             type="tel"
                                             name="phone"
-                                            value={formData.phone}
+                                            value={formData.phone }
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your phone number"
@@ -511,7 +521,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="address"
-                                            value={formData.address}
+                                            value={formData.address }
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your address"
@@ -533,7 +543,7 @@ const EditProfile = () => {
                                     </label>
                                     <select
                                         name="role"
-                                        value={formData.role}
+                                        value={formData.role }
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                     >

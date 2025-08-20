@@ -118,7 +118,6 @@ export const userLogin = async (req, res) => {
             })
         }
         //extract data from the existing users
-        const { _id, Fullname, role, address, paymentDetails, image } = existedUser;
         const options = {
             httpOnly: true,
             secure: true
@@ -145,16 +144,7 @@ export const userLogin = async (req, res) => {
             message: "-> wow, User login successful",
             success: true,
             token,
-            user: {
-                _id,
-                Fullname,
-                username,
-                email,
-                role,
-                address,
-                paymentDetails,
-                image
-            }
+            user: existedUser
         })
 
     } catch (error) {
@@ -230,7 +220,7 @@ export const setProfilePicture = async (req, res) => {
             user.image = ProfileImgUrl.url;
 
 
-            await user.save()
+            await user.save();
         }
 
         if (!user) {
@@ -261,19 +251,21 @@ export const setProfilePicture = async (req, res) => {
 
 export const updateUserInformations = async (req, res) => {
     try {
-        const { Firstname, Lastname, username, Fullname, email, phone, role } = req.body;
+        const { Firstname, Lastname, username, Fullname, email, phone, role, address } = req.body;
+        console.log('user data', req.body)
 
-        const user = await User.findById(req.user.userId)
+        const user = await User.findById(req.user.userId).select("-password")
 
         if (user) {
-            user.Fullname = Fullname;
-            user.Firstname = Firstname;
-            user.Lastname = Lastname;
-            user.username = username.toLowerCase();
-            user.email = email;
-            user.phone = phone;
-            user.role = role;
-            await user.save()
+            user.Fullname = Fullname || user.Fullname;
+            user.Firstname = Firstname || user.Firstname;
+            user.Lastname = Lastname || user.Lastname;
+            user.username = username || user.username;
+            user.email = email || user.email;
+            user.phone = phone || user.phone;
+            user.role = role || user.role;
+            user.address = address || user.address;
+            await user.save();
         }
 
         if (!user) {
@@ -282,6 +274,8 @@ export const updateUserInformations = async (req, res) => {
                 success: true,
             })
         }
+        // hide the user password 
+        
         res.status(200).json({
             message: "Ok, update user information successful",
             success: true,

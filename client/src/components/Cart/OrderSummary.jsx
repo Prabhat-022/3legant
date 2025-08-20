@@ -4,11 +4,10 @@ import { FiPlus } from "react-icons/fi";
 import { useSelector } from 'react-redux';
 const OrderSummary = () => {
 
-    const products = useSelector((state) => state.cart.item);
+    const cartItem = useSelector((state) => state.cart.item);
 
-    const price = products.map((item) => Number(item.price) * item.quantity);
-
-    const total = Number(price.reduce(getSum, 0))
+    const price = cartItem.map((item) => Number(item.price) * item.quantity);
+    const total = Number(price.reduce(getSum, 0));
 
     function getSum(total, num) {
         return total + Math.round(num);
@@ -25,7 +24,7 @@ const OrderSummary = () => {
                         <table className="table-auto w-full h-full overflow-hidden scrollbar-hide ">
 
                             {
-                                products?.map((item) => (
+                                cartItem?.map((item) => (
                                     <>
                                         <tr key={item?._id}>
                                             <td className='flex gap-3 justify-between border-b-1 p-1'>
@@ -41,7 +40,7 @@ const OrderSummary = () => {
                                                         <div className="border flex gap-3  items-center m-1 justify-center">
                                                             <button className="font-bold cursor-pointer" ><RiSubtractFill /></button>
 
-                                                            <h1>1</h1>
+                                                            <h1>{item.quantity}</h1>
 
                                                             <button className="font-bold cursor-pointer"><FiPlus /></button>
                                                         </div>

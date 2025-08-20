@@ -5,11 +5,9 @@ import Newsletter from './Newsletter'
 import NewArrivals from './NewArrivals'
 import Servises from './Servises'
 import { usefetchProducts } from '../../hooks/usefetchProducts'
-import { UsegetAllTheCartItem } from '../../hooks/UsegetAllTheCartItem'
 
 const index = () => {
     usefetchProducts()
-    UsegetAllTheCartItem()
     
     return (
         <>

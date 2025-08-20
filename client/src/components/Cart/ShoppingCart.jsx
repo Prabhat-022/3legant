@@ -5,7 +5,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { removeProduct } from "../../redux/CartSlice";
+import { DecreaseCartItem, removeProduct } from "../../redux/CartSlice";
+import { IncreaseCartItem } from "../../redux/CartSlice";
 
 const ShoppingCart = () => {
     const [orderCheck, setOrderChecks] = useState({
@@ -15,12 +16,10 @@ const ShoppingCart = () => {
     })
     const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(false);
-    const [quantity, setQuantity] = useState();
 
-    const products = useSelector((state) => state.cart.item);
-    console.log('products', products)
-    const price = products.map((item) => Number(item.price) * item.quantity);
+    const cartItem = useSelector((state) => state?.cart?.item);
+    console.log('cartItem', cartItem)
+    const price = cartItem.map((item) => Number(item.price) * item.quantity);
 
     const freeshipping = 10;
     const ExpressShopping = 150;
@@ -49,32 +48,53 @@ const ShoppingCart = () => {
     }
     total += subtotal;
 
-    const updateCartQuantity = async (product) => {
-        const productId = product._id;
-
+    //increse the cart product quantity
+    const IncreaseCartItemQuantity = async (productId) => {
         try {
-            setLoading(true)
-            const res = await axios.post("/api/cart", { productId, quantity });
-            console.log(res)
-            console.log('quantity', res.data.cart.items)
+            const response = await axios.post(`/api/cart/${productId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true
+                }
+            )
+            if (response.data.success) {
 
-            const qty = res.data.cart.items.map(item => item.quantity)
-            console.log('qty', qty)
-            setQuantity(qty)
-            setLoading(false)
-
-            if (res.data.success) {
-                toast.success("Product added to cart");
+                dispatch(IncreaseCartItem(productId))
+                toast.success('Product added to cart')
             }
         } catch (error) {
-            console.log(error)
+            console.log('->Error: cart item Not deleted', error)
+            toast.error('Product not added to cart')
         }
+    }
 
+    //decrease the cart product quantity
+    const DecreaseCartItemQuantity = async (productId) => {
+        try {
+            const response = await axios.put(`/api/cart/${productId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true
+                }
+            )
+            if (response.data.success) {
+                dispatch(DecreaseCartItem(productId))
+                toast.success('Product removed from cart')
+            }
+        } catch (error) {
+            console.log('->Error: cart item Not deleted', error)
+            toast.error('Product not removed from cart')
+        }
     }
 
     //Remove products from the card 
-    const handleDeleteCartItem = async (id) => {
-        console.log('id', id)
+    //click on button than remove the product from the cart
+    const handleRemoveProduct = async (id) => {
+        console.log('cart remove id', id)
         try {
             const response = await axios.delete(`/api/cart/${id}`,
                 {
@@ -84,15 +104,16 @@ const ShoppingCart = () => {
                     withCredentials: true
                 }
             )
-
-            console.log('->Cart item deleted', response.data)
-            dispatch(removeProduct(id))
+            if (response.data.success) {
+                dispatch(removeProduct(id))
+                toast.success('Product removed from cart')
+            }
 
 
         } catch (error) {
             console.log('->Error: cart item Not deleted', error)
+            toast.error('Product not removed from cart')
         }
-
     }
 
 
@@ -108,7 +129,7 @@ const ShoppingCart = () => {
                     <div style={{ height: "75vh", overflowY: "scroll" }} className=" border xl:w-[40%] md:w-[40%] xl:border-2 md:border-2 xl:h-[75vh] md:h-[75vh] ">
 
                         <table className="table-auto w-full ">
-                            <thead className="border-b-2">
+                            <thead className="border-b-2 ">
                                 <tr className="bg-[#e7e3e3c2]">
                                     <th className="p-2">Product</th>
                                     <th className="p-2">Quantity</th>
@@ -119,9 +140,9 @@ const ShoppingCart = () => {
 
                             <tbody className="h-1/4 overflow-y-scroll scrollbar-hide w-full">
                                 {
-                                    products?.map((item) => (
+                                    cartItem?.map((item) => (
                                         <>
-                                            <tr className="border-b-2">
+                                            <tr className="border-b-2 ">
                                                 <td className="p-2">
                                                     <img src={item.image[0].url} alt="" className="w-[100px] h-[100px]" />
                                                 </td>
@@ -131,18 +152,19 @@ const ShoppingCart = () => {
                                                         <p className="text-[#6d6c6c]">Color: {item.color}</p>
 
                                                         {/* remove product from card */}
-                                                        <div className="flex items-center justify-center text-[#6d6c6c]  border-1 rounded  cursor-pointer p-1" onClick={() => handleDeleteCartItem(item._id)}>
-                                                            <AiOutlineClose />
-                                                            <button className=" cursor-pointer">remove</button>
+                                                        <div className="flex items-center justify-center text-[#6d6c6c]  border-1 rounded-md cursor-pointer p-1 hover:bg-red-900 hover:text-white my-2 " onClick={() => handleRemoveProduct(item._id)}>
+                                                            <button className=" cursor-pointer flex items-center justify-center gap-2">
+                                                                <AiOutlineClose size={15} />
+                                                                Remove</button>
                                                         </div>
 
                                                     </div>
                                                 </td>
                                                 <td className="p-2">
-                                                    <div className="border flex justify-between">
-                                                        <button className="bg-[#e7e3e3c2] p-2" onClick={() => updateCartQuantity(item)}>-</button>
-                                                        <h1 className="p-2">{item.quantity || quantity}</h1>
-                                                        <button className="bg-[#e7e3e3c2] p-2" onClick={() => updateCartQuantity(item)}>+</button>
+                                                    <div className="border flex justify-between rounded-md">
+                                                        <button className="cursor-pointer p-2 " onClick={() => DecreaseCartItemQuantity(item._id)}>-</button>
+                                                        <h1 className="p-2">{item.quantity}</h1>
+                                                        <button className="cursor-pointer p-2" onClick={() => IncreaseCartItemQuantity(item._id)}>+</button>
                                                     </div>
                                                 </td>
                                                 <td className="p-2">
@@ -217,7 +239,7 @@ const ShoppingCart = () => {
 
                         <div className="flex items-center ">
                             <CiDiscount1 />
-                        <input type="text" placeholder="coupon code" className="outline-none p-2 w-full" />
+                            <input type="text" placeholder="coupon code" className="outline-none p-2 w-full" />
                         </div>
                         <h1 className="font-bold">Apply</h1>
 

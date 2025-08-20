@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { toggleStatusTab } from '../redux/cartSlice';
 // import { UseGetAllTheCartProducts } from '../hooks/useGetAllTheCartProducts';
 import { AiOutlineBars } from "react-icons/ai";
-import { toggleStatusTab } from '../../redux/CartSlice';
+import { addToCart, toggleStatusTab } from '../../redux/CartSlice';
 import { setInput } from '../../redux/UserSlice';
 import { IoCloseSharp } from "react-icons/io5";
+import axios from 'axios';
 
 const Header = () => {
     const [search, setSearch] = useState(false)
     const [Input, setInputs] = useState("")
+    const[item,setItem]=useState([])
     const [toggleMenu, setToggleMenu] = useState(false)
     const { user, Fullname, image } = useSelector(state => state?.user) || {}
 
@@ -23,8 +25,26 @@ const Header = () => {
     if (Input) {
         dispatch(setInput(Input))
     }
-    const handleOpenTabCart = () => {
+    const handleOpenTabCart = async () => {
         dispatch(toggleStatusTab());
+
+        try {
+            const res = await axios.get("/api/cart", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            });
+
+            if (res.data.success) {
+                dispatch(addToCart(res.data.data))
+                setItem(res.data.data)
+                }
+            console.log("-> Cart item fetch successfully", res.data);
+
+        } catch (error) {
+            console.log("-> Cart item fetch Error", error);
+        }
     }
 
     const handleMenuToggle = () => {
@@ -61,7 +81,7 @@ const Header = () => {
                         <div className="relative cursor-pointer " onClick={handleOpenTabCart}>
                             <Link to={""} className='cursor-pointer ' ><CgShoppingCart size={25} /></Link>
                             {/* <p className='absolute  left-2.5 bottom-4 text-red-600 font-bold'>{product.length}</p> */}
-
+                            <p className='absolute  left-2.5 bottom-4 text-red-600 font-bold'>{item.length}</p>    
                         </div>
 
                         <div className="flex gap-2">
@@ -90,7 +110,7 @@ const Header = () => {
                     toggleMenu && window.innerWidth < 768 && (
                         <div className="fixed top-16 left-0 bg-white shadow-lg rounded-md h-[500px] w-[240px] lg:hidden" onMouseLeave={handleMenuToggle}>
                             <div className="p-2 ">
-                            <IoCloseSharp size={25} onClick={handleMenuToggle} className="absolute top-2 right-2 cursor-pointer"/>
+                                <IoCloseSharp size={25} onClick={handleMenuToggle} className="absolute top-2 right-2 cursor-pointer" />
                                 <ul>
                                     <li onClick={handleMenuToggle} className="cursor-pointer p-2 text-xl font-serif">
                                         <NavLink to={"/"}>Home</NavLink>
