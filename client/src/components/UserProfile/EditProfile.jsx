@@ -12,7 +12,7 @@
 //     console.log('img:', img);
 
 //     const {user} = useSelector((state) => state.user)
- 
+
 //     const { register, handleSubmit } = useForm({
 //         defaultValues: {
 //             Fullname: user.Fullname,
@@ -152,51 +152,54 @@
 
 
 import React, { useState } from 'react'
-import { 
-    User, 
-    Mail, 
-    Shield, 
-    Camera, 
-    Save, 
+import {
+    User,
+    Mail,
+    Shield,
+    Camera,
+    Save,
     ArrowLeft,
     Upload,
     X,
-    Check} from 'lucide-react';
+    Check
+} from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const EditProfile = () => {
     // Mock data - replace with actual useSelector and useForm
-    // const [users] = useState({
-    //     _id: "64f5b2c8e4b0f123456789ab",
-    //     Fullname: "Alexandra Johnson",
-    //     Firstname: "Alexandra",
-    //     Lastname: "Johnson",
-    //     email: "alexandra.johnson@example.com",
-    //     phone: "+1 (555) 123-4567",
-    //     username: "alexandra_j",
-    //     address: "123 Main Street, San Francisco, CA 94105",
-    //     role: "admin",
-    //     image: "/api/placeholder/160/160"
-    // })
-    const {user} = useSelector((state) => state.user)
+    const [users] = useState({
+        _id: "64f5b2c8e4b0f123456789ab",
+        Fullname: "Alexandra Johnson",
+        Firstname: "Alexandra",
+        Lastname: "Johnson",
+        email: "alexandra.johnson@example.com",
+        phone: "+1 (555) 123-4567",
+        username: "alexandra_j",
+        address: "123 Main Street, San Francisco, CA 94105",
+        role: "admin",
+        image: "/api/placeholder/160/160"
+    })
+    const { user } = useSelector((state) => state.user)
 
     const [img, setImg] = useState('')
     const [loading, setLoading] = useState(false)
     const [imgLoading, setImgLoading] = useState(false)
     const [showImagePreview, setShowImagePreview] = useState(false)
     const [imagePreview, setImagePreview] = useState('')
-    const [formData, setFormData] = useState({
-        Fullname: user.Fullname || '',
-        Firstname: user.Firstname || '',
-        Lastname: user.Lastname || '',
-        username: user.username || '',
-        email: user.email || '',
-        phone: user.phone || '',
-        address: user.address || '',
-        role: user.role || 'user'
-    })
+    // const [formData, setFormData] = useState({
+    //     _id: user._id || '',
+    //     Fullname: user.Fullname || '',
+    //     Firstname: user.Firstname || '',
+    //     Lastname: user.Lastname || '',
+    //     username: user.username || '',
+    //     email: user.email || '',
+    //     phone: user.phone || '',
+    //     address: user.address[0] || '',
+    //     role: user.role || 'user'
+    // })
+    const [formData, setFormData] = useState(users)
     const [errors, setErrors] = useState({})
     const [successMessage, setSuccessMessage] = useState('')
     const navigate = useNavigate()
@@ -233,24 +236,24 @@ const EditProfile = () => {
 
     const validateForm = () => {
         const newErrors = {}
-        
+
         if (!formData.Fullname.trim()) {
             newErrors.Fullname = 'Full name is required'
         }
-        
+
         if (!formData.username.trim()) {
             newErrors.username = 'Username is required'
         } else if (formData.username.length < 3) {
             newErrors.username = 'Username must be at least 3 characters'
         }
-        
+
         if (!formData.email.trim()) {
             newErrors.email = 'Email is required'
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             newErrors.email = 'Please enter a valid email'
         }
-        
-        if (formData.phone && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/\s/g, ''))) {
+
+        if (formData.phone && !/^[+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/\s/g, ''))) {
             newErrors.phone = 'Please enter a valid phone number'
         }
 
@@ -285,7 +288,7 @@ const EditProfile = () => {
 
     const handleUpdateImage = async () => {
         if (!img) return
-        
+
         setImgLoading(true)
         try {
             // Simulate image upload
@@ -311,7 +314,7 @@ const EditProfile = () => {
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <button 
+                    <button
                         onClick={handleGoBack}
                         className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
                     >
@@ -339,13 +342,13 @@ const EditProfile = () => {
                                 <Camera className="w-5 h-5 text-blue-600" />
                                 Profile Photo
                             </h3>
-                            
+
                             <div className="text-center">
                                 <div className="relative inline-block mb-6">
                                     <div className="w-40 h-40 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 p-1">
-                                        <img 
-                                            src={showImagePreview ? imagePreview : user.image} 
-                                            alt="Profile" 
+                                        <img
+                                            src={showImagePreview ? imagePreview : user.image}
+                                            alt="Profile"
                                             className="w-full h-full rounded-full object-cover bg-white"
                                         />
                                     </div>
@@ -362,11 +365,11 @@ const EditProfile = () => {
                                         </button>
                                     )}
                                 </div>
-                                
+
                                 <div className="space-y-4">
                                     <label className="block">
-                                        <input 
-                                            type="file" 
+                                        <input
+                                            type="file"
                                             accept="image/*"
                                             onChange={handleImageChange}
                                             className="hidden"
@@ -377,7 +380,7 @@ const EditProfile = () => {
                                             <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
                                         </div>
                                     </label>
-                                    
+
                                     {img && (
                                         <button
                                             onClick={handleUpdateImage}
@@ -406,7 +409,7 @@ const EditProfile = () => {
                                     <User className="w-5 h-5 text-blue-600" />
                                     Personal Information
                                 </h3>
-                                
+
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -415,7 +418,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Fullname"
-                                            value={formData.Fullname }
+                                            value={formData.Fullname}
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.Fullname ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your full name"
@@ -432,7 +435,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="username"
-                                            value={formData.username }
+                                            value={formData.username}
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your username"
@@ -449,7 +452,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Firstname"
-                                            value={formData.Firstname }
+                                            value={formData.Firstname}
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your first name"
@@ -463,7 +466,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="Lastname"
-                                            value={formData.Lastname }
+                                            value={formData.Lastname}
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your last name"
@@ -478,7 +481,7 @@ const EditProfile = () => {
                                     <Mail className="w-5 h-5 text-green-600" />
                                     Contact Information
                                 </h3>
-                                
+
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -487,7 +490,7 @@ const EditProfile = () => {
                                         <input
                                             type="email"
                                             name="email"
-                                            value={formData.email }
+                                            value={formData.email}
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your email address"
@@ -504,7 +507,7 @@ const EditProfile = () => {
                                         <input
                                             type="tel"
                                             name="phone"
-                                            value={formData.phone }
+                                            value={formData.phone}
                                             onChange={handleInputChange}
                                             className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
                                             placeholder="Enter your phone number"
@@ -521,7 +524,7 @@ const EditProfile = () => {
                                         <input
                                             type="text"
                                             name="address"
-                                            value={formData.address }
+                                            value={formData.address}
                                             onChange={handleInputChange}
                                             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                             placeholder="Enter your address"
@@ -536,14 +539,14 @@ const EditProfile = () => {
                                     <Shield className="w-5 h-5 text-purple-600" />
                                     Account Settings
                                 </h3>
-                                
+
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Role
                                     </label>
                                     <select
                                         name="role"
-                                        value={formData.role }
+                                        value={formData.role}
                                         onChange={handleInputChange}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                     >

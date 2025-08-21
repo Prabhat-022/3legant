@@ -45,9 +45,7 @@ const userSchema = new mongoose.Schema({
         enum:['user', 'admin'],
         default:'user'
     },
-    agree:{
-        type:String
-    },
+
     address:[
         {
             shoppingaddress:String,

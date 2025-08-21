@@ -152,7 +152,7 @@ const ShoppingCart = () => {
                                                         <p className="text-[#6d6c6c]">Color: {item.color}</p>
 
                                                         {/* remove product from card */}
-                                                        <div className="flex items-center justify-center text-[#6d6c6c]  border-1 rounded-md cursor-pointer p-1 hover:bg-red-900 hover:text-white my-2 " onClick={() => handleRemoveProduct(item._id)}>
+                                                        <div className="flex items-center justify-center text-white  border-1 rounded-md cursor-pointer p-1 bg-red-900 hover:bg-red-900 hover:border-2 hover:text-white my-2 " onClick={() => handleRemoveProduct(item._id)}>
                                                             <button className=" cursor-pointer flex items-center justify-center gap-2">
                                                                 <AiOutlineClose size={15} />
                                                                 Remove</button>
@@ -163,15 +163,15 @@ const ShoppingCart = () => {
                                                 <td className="p-2">
                                                     <div className="border flex justify-between rounded-md">
                                                         <button className="cursor-pointer p-2 " onClick={() => DecreaseCartItemQuantity(item._id)}>-</button>
-                                                        <h1 className="p-2">{item.quantity}</h1>
+                                                        <h1 className="p-2  text-red-900 text-center">{item.quantity}</h1>
                                                         <button className="cursor-pointer p-2" onClick={() => IncreaseCartItemQuantity(item._id)}>+</button>
                                                     </div>
                                                 </td>
                                                 <td className="p-2">
-                                                    <h1 className="font-bold">${item.price}</h1>
+                                                    <h1 className="font-bold text-green-400">${item.price}</h1>
                                                 </td>
                                                 <td className="p-2">
-                                                    <h1 className="font-bold">${Number(item.price) * item.quantity}</h1>
+                                                    <h1 className="font-bold text-green-600">${Number(item.price) * item.quantity}</h1>
                                                 </td>
                                             </tr>
                                         </>
@@ -189,27 +189,27 @@ const ShoppingCart = () => {
                         <div className=" ">
                             <div className="border-2 flex justify-between p-2 mb-3 bg-[#e7e3e3c2]">
                                 <div className="">
-                                    <input type="radio" name="" id="" checked={orderCheck.freeshipping} onChange={(e) => setOrderChecks({ ...orderCheck, freeshipping: e.target.checked })} />
+                                    <input type="checkbox" name="" id="" checked={orderCheck.freeshipping} onChange={(e) => setOrderChecks({ ...orderCheck, freeshipping: e.target.checked })} />
                                     <label htmlFor="" className="px-2">Free Shopping</label>
                                 </div>
 
-                                <p>%10.00</p>
+                                <p className="text-red-600">%10.00</p>
                             </div>
                             <div className="border-2 flex justify-between p-2 mb-3 bg-[#e7e3e3c2]">
                                 <div className="">
-                                    <input type="radio" name="" id="" checked={orderCheck.expressshopping} onChange={(e) => setOrderChecks({ ...orderCheck, expressshopping: e.target.checked })} />
+                                    <input type="checkbox" name="" id="" checked={orderCheck.expressshopping} onChange={(e) => setOrderChecks({ ...orderCheck, expressshopping: e.target.checked })} />
                                     <label htmlFor="" className="px-2">Express Shopping</label>
                                 </div>
 
-                                <p>+$150.00</p>
+                                <p className="text-red-600">+$150.00</p>
                             </div>
                             <div className="border flex justify-between p-2 bg-[#e7e3e3c2] ">
                                 <div className="">
-                                    <input type="radio" name="" id="" checked={orderCheck.pickup} onChange={(e) => setOrderChecks({ ...orderCheck, pickup: e.target.checked })} />
+                                    <input type="checkbox" name="" id="" checked={orderCheck.pickup} onChange={(e) => setOrderChecks({ ...orderCheck, pickup: e.target.checked })} />
                                     <label htmlFor="" className="px-2">Pick Up </label>
                                 </div>
 
-                                <p>%21.00</p>
+                                <p className="text-red-600">%21.00</p>
                             </div>
 
 
@@ -220,7 +220,7 @@ const ShoppingCart = () => {
                         </div>
                         <div className="flex justify-between mb-2 font-bold ">
                             <h1>Total</h1>
-                            <h1>${total}</h1>
+                            <h1 className="text-green-600">${total}</h1>
                         </div>
                         <Link to={'/cart/checkout'}>
                             <button className="text-white bg-black p-2 w-full">Checkout</button>

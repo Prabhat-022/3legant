@@ -14,13 +14,17 @@ import CartLayout from './components/Cart/CartLayout.jsx'
 import ShoppingCart from './components/Cart/ShoppingCart.jsx'
 import CheckoutDetails from './components/Cart/CheckoutDetails.jsx'
 import OrderCompleted from './components/Cart/OrderCompleted.jsx'
-import Admin from './components/Admin/Admin.jsx'
+
+// ================Admin================
 import LayoutAdmin from './components/Admin/LayoutAdmin.jsx'
-import DashboardAdmin from './components/Admin/Dashboard/DashboardAdmin.jsx'
+import Admin from './components/Admin/Admin.jsx'
+import Dashboard from './components/Admin/Dashboard/Dashboard.jsx'
 import ProductAdmin from './components/Admin/Product/ProductAdmin.jsx'
 import AddNewProduct from './components/Admin/Product/AddNewProduct.jsx'
+import Order from './components/Admin/Order/Order.jsx'
 import EditExistingProduct from './components/Admin/Product/EditExistingProduct.jsx'
 import Payment from './components/payment/Payment.jsx'
+import Chat from './components/Admin/Inbox/Chat.jsx'
 
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
@@ -110,28 +114,40 @@ const router = createBrowserRouter([
       }
     ]
   },
-  // {
-  //   path: '/admin',
-  //   element: <LayoutAdmin />,
-  //   children: [
-  //     {
-  //       path: 'admin-dashboard',
-  //       element: <DashboardAdmin />
-  //     },
-  //     {
-  //       path: 'admin-product',
-  //       element: <ProductAdmin />,
-  //     },
-  //     {
-  //       path: 'addnew-product',
-  //       element: <AddNewProduct />
-  //     },
-  //     {
-  //       path: 'edit-product',
-  //       element: <EditExistingProduct />
-  //     }
-  //   ]
-  // },
+  {
+    path: '/admin',
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <Admin />
+      },
+      {
+        path: 'admin-dashboard',
+        element: <Dashboard />
+      },
+      {
+        path: 'admin-product',
+        element: <ProductAdmin />,
+      },
+      {
+        path: 'addnew-product',
+        element: <AddNewProduct />
+      },
+      {
+        path: 'edit-product',
+        element: <EditExistingProduct />
+      },
+      {
+        path: 'admin-order',
+        element: <Order />
+      },
+      {
+        path: 'admin-chat',
+        element: <Chat />
+      }
+    ]
+  },
   {
     path: '/payment',
     element: <Payment />

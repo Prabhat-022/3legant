@@ -4,7 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import { useSelector } from 'react-redux';
 const OrderSummary = () => {
 
-    const cartItem = useSelector((state) => state.cart.item);
+    const cartItem = useSelector((state) => state?.cart?.item);
 
     const price = cartItem.map((item) => Number(item.price) * item.quantity);
     const total = Number(price.reduce(getSum, 0));
@@ -34,7 +34,7 @@ const OrderSummary = () => {
 
                                                     <div className="">
                                                         <h1 className='font-bold font-mono m-1'>{item?.title.split(" ").slice(0, 2).join(" ")}</h1>
-                                                        <h1 className='text-[#898f98] m-1'>Color: {item?.color}</h1>
+                                                        <h1 className={` m-1`}>Color:<span className={`text-${item?.color.toLowerCase()}-600`}> {item?.color}</span></h1>
 
 
                                                         <div className="border flex gap-3  items-center m-1 justify-center">
@@ -48,7 +48,7 @@ const OrderSummary = () => {
                                                 </div>
 
                                                 <div className="flex flex-col justify-between items-center py-4">
-                                                    <h1 className='text-green-600 text-lg font-bold'>${item.price}</h1>
+                                                    <h1 className='text-green-600 text-lg font-bold'>${Number(item.price) * item.quantity}</h1>
                                                 </div>
                                             </td>
 

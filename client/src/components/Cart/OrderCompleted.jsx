@@ -9,7 +9,7 @@ const OrderCompleted = () => {
  
   const total = Number(price.reduce(getSum, 0))
   const data = new Date()
-  const str = "@#$%12346890&"
+  const str = "12346890123457890"
   const ordercode = Array(6).fill(str).map(x => x[Math.floor(Math.random() * str.length)]).join('');
 
   function getSum(total, num) {

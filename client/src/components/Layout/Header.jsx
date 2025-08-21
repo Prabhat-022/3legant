@@ -18,6 +18,7 @@ const Header = () => {
     const[item,setItem]=useState([])
     const [toggleMenu, setToggleMenu] = useState(false)
     const { user, Fullname, image } = useSelector(state => state?.user) || {}
+    console.log('user',user)
 
 
     const dispatch = useDispatch();

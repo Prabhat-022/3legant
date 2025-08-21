@@ -23,12 +23,12 @@ const CheckoutDetails = () => {
             phone: loginUser?.phone,
             address: [
                 {
-                shoppingaddress: loginUser?.address[0]?.shoppingaddress,
-                streetaddress: loginUser?.address[0]?.streetaddress,
-                country: loginUser?.address[0]?.country,
-                towncity: loginUser?.address[0]?.towncity,
-                state: loginUser?.address[0]?.state,
-                zipCode: loginUser?.address[0]?.zipCode,
+                    shoppingaddress: loginUser?.address[0]?.shoppingaddress,
+                    streetaddress: loginUser?.address[0]?.streetaddress,
+                    country: loginUser?.address[0]?.country,
+                    towncity: loginUser?.address[0]?.towncity,
+                    state: loginUser?.address[0]?.state,
+                    zipCode: loginUser?.address[0]?.zipCode,
                 }
             ],
             paymentDetails: {
@@ -39,7 +39,7 @@ const CheckoutDetails = () => {
         },
     })
 
-    const onSubmit =async (data) => {
+    const onSubmit = async (data) => {
         console.log('data', data)
         try {
             setLoading(true)
