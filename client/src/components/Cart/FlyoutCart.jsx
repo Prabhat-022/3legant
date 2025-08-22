@@ -5,7 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleStatusTab, IncreaseCartItem, DecreaseCartItem } from "../../redux/CartSlice";
-import axios from "axios";
+import axiosInstance from "../../lib/axios";
 import toast from "react-hot-toast";
 
 const FlyoutCart = () => {
@@ -23,7 +23,7 @@ const FlyoutCart = () => {
     const handleRemoveProduct = async (id) => {
         console.log('cart remove id', id)
         try {
-            const response = await axios.delete(`/api/cart/${id}`,
+            const response = await axiosInstance.delete(`/api/cart/${id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const FlyoutCart = () => {
 
     const IncreaseCartItemQuantity = async (productId) => {
         try {
-            const response = await axios.post(`/api/cart/${productId}`,
+            const response = await axiosInstance.post(`/api/cart/${productId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const FlyoutCart = () => {
 
     const DecreaseCartItemQuantity = async (productId) => {
         try {
-            const response = await axios.put(`/api/cart/${productId}`,
+            const response = await axiosInstance.put(`/api/cart/${productId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

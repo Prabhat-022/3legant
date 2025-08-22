@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import signupImg from '../../assets/Left.jpg'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import axiosInstance from '../../lib/axios'
 import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
         try {
             setLoading(true)
-            const res = await axios.post('/api/forgot-password', data, {
+            const res = await axiosInstance.post('/api/forgot-password', data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
     const generateOtp = async () => {
 
         try {
-            const res = await axios.get('/api/generate-otp')
+            const res = await axiosInstance.get('/api/generate-otp')
             setOtp(res.data.serverOtp)
             console.log('otp res:', res.data)
 
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
     const verifyOtp = async () => {
 
         try {
-            const res = await axios.post('/api/verify-otp', {
+            const res = await axiosInstance .post('/api/verify-otp', {
                 userOtp
             })
             setOtpMessage(res.data.message)

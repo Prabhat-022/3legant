@@ -37,7 +37,7 @@ const productSchema = new mongoose.Schema({
     image: [{
         url: {
             type: String,
-            required: true,
+            // required: true,
             trim: true
         },
     }],
@@ -62,6 +62,9 @@ const productSchema = new mongoose.Schema({
     ],
     reviews: {
         type: String
+    },
+    stock: {
+        type: Number
     }
 
 

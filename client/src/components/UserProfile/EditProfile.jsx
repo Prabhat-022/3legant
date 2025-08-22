@@ -165,7 +165,8 @@ import {
 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../lib/axios';
+
 
 const EditProfile = () => {
     // Mock data - replace with actual useSelector and useForm
@@ -270,7 +271,7 @@ const EditProfile = () => {
             await new Promise(resolve => setTimeout(resolve, 1000))
             console.log('Updated profile:', formData)
 
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/update-user-info`, formData, {
+            const res = await axiosInstance.put(`/api/update-user-info`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

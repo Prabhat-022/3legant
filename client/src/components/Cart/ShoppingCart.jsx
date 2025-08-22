@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../lib/axios";  
 import toast from "react-hot-toast";
 import { DecreaseCartItem, removeProduct } from "../../redux/CartSlice";
 import { IncreaseCartItem } from "../../redux/CartSlice";
@@ -51,7 +51,7 @@ const ShoppingCart = () => {
     //increse the cart product quantity
     const IncreaseCartItemQuantity = async (productId) => {
         try {
-            const response = await axios.post(`/api/cart/${productId}`,
+            const response = await axiosInstance.post(`/api/cart/${productId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const ShoppingCart = () => {
     //decrease the cart product quantity
     const DecreaseCartItemQuantity = async (productId) => {
         try {
-            const response = await axios.put(`/api/cart/${productId}`,
+            const response = await axiosInstance.put(`/api/cart/${productId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -95,8 +95,8 @@ const ShoppingCart = () => {
     //click on button than remove the product from the cart
     const handleRemoveProduct = async (id) => {
         console.log('cart remove id', id)
-        try {
-            const response = await axios.delete(`/api/cart/${id}`,
+        try {   
+            const response = await axiosInstance.delete(`/api/cart/${id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

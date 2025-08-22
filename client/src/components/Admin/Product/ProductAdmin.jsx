@@ -1,6 +1,4 @@
 
-
-
 import { Link } from "react-router-dom"
 import ImageSlider from "../../Homepage/ImageSlider"
 import { useSelector } from "react-redux"
@@ -12,7 +10,7 @@ const ProductAdmin = () => {
 
   return (
     <>
-      <div className=" m-4 xl:bg-[#f1f1f1] xl:mx-2 xl:p-8 xl:h-[100vh] xl:ml-32 md:bg-[#f1f1f1] md:mx-2 md:p-8 md:h-[100vh] md:ml-24">
+      <div className="lg:p-6">
 
         <div className="p-2 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Products</h1>
@@ -20,7 +18,7 @@ const ProductAdmin = () => {
 
         <ImageSlider />
 
-        <div className="flex flex-wrap gap-3 mx-10">
+        <div className="flex flex-wrap gap-3 ">
           {
             product?.map((item) => (
               <Card product={item} key={item._id} />

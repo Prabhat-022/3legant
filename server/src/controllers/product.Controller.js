@@ -152,50 +152,139 @@ export const addNewProducts = async (req, res) => {
 // update existing product 
 
 
+// export const updateProducts = async (req, res) => {
+
+//     try {
+//         const { id } = req.params
+//         const user = req.user.userId;
+
+//         console.log('user', user)
+//         console.log('id', id)
+
+//         const product = await Product.findOneAndUpdate()
+
+//         const { title, description, price, discountPrice, color, addtionalDetails } = req.body;
+
+//         // Validate ObjectId
+//         if (!mongoose.Types.ObjectId.isValid(id)) {
+//             return res.status(400).json({
+//                 message: "-> Invalid product ID",
+//                 success: false
+//             });
+//         }
+
+//         // Check if the product exists
+//         if (!product) {
+//             return res.status(404).json({
+//                 message: "-> This product does not exist",
+//                 success: false
+//             });
+//         }
+
+//         // Update the product
+//         const updatedProduct = await Product.findByIdAndUpdate(
+//             id, 
+//             { title, description, price, discountPrice, color, addtionalDetails },
+//             { new: true }
+//         );
+
+//         res.status(200).json({
+//             message: "-> Wow, Product updated successfully",
+//             success: true,
+//             updatedProduct
+//         });
+
+//     } catch (error) {
+//         console.error("Can't update the products", error);
+
+//         res.status(500).json({
+//             message: "-> Product not updated",
+//             success: false,
+//             error: error.message
+//         });
+//     }
+// };
+
 export const updateProducts = async (req, res) => {
-
     try {
-        const { id } = req.params
-        const product = await Product.findById(id);
+        const { id } = req.params;
+        const userId = req.user.userId;
 
-        const { title, description, price, discountPrice, color, addtionalDetails } = req.body;
+        console.log('user', userId)
+        console.log('id', id)
 
-        // Validate ObjectId
+        // Validate ObjectId first
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
-                message: "-> Invalid product ID",
+                message: "Invalid product ID",
                 success: false
             });
         }
 
-        // Check if the product exists
-        if (!product) {
+        const { title, description, price, discountPrice, color, additionalDetails } = req.body;
+
+        // Check if the product exists and belongs to the user
+        const existingProduct = await Product.findOne({ 
+            _id: id, 
+            user: userId // Assuming products have a user field referencing the owner
+        });
+
+        if (!existingProduct) {
             return res.status(404).json({
-                message: "-> This product does not exist",
+                message: "Product not found or you don't have permission to update it",
                 success: false
             });
         }
+
+        // Prepare update object with only provided fields
+        const updateData = {};
+        if (title !== undefined) updateData.title = title;
+        if (description !== undefined) updateData.description = description;
+        if (price !== undefined) updateData.price = price;
+        if (discountPrice !== undefined) updateData.discountPrice = discountPrice;
+        if (color !== undefined) updateData.color = color;
+        if (additionalDetails !== undefined) updateData.additionalDetails = additionalDetails;
 
         // Update the product
         const updatedProduct = await Product.findByIdAndUpdate(
             id, 
-            { title, description, price, discountPrice, color, addtionalDetails },
-            { new: true }
+            updateData,
+            { 
+                new: true, // Return the updated document
+                runValidators: true // Run model validations on update
+            }
         );
 
         res.status(200).json({
-            message: "-> Wow, Product updated successfully",
+            message: "Product updated successfully",
             success: true,
-            updatedProduct
+            data: updatedProduct
         });
 
     } catch (error) {
-        console.error("Can't update the products", error);
+        console.error("Error updating product:", error);
+
+        // Handle specific error types
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                message: "Validation error: " + error.message,
+                success: false,
+                error: error.message
+            });
+        }
+
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                message: "Invalid data format",
+                success: false,
+                error: error.message
+            });
+        }
 
         res.status(500).json({
-            message: "-> Product not updated",
+            message: "Internal server error",
             success: false,
-            error: error.message
+            error: process.env.NODE_ENV === 'production' ? 'An unexpected error occurred' : error.message
         });
     }
 };

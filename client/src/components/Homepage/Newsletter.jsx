@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Newsletters from '../../assets/Newsletter.jpg';
 import { AiOutlineMail } from "react-icons/ai";
-import axios from 'axios';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form'
 
@@ -17,7 +17,7 @@ const Newsletter = () => {
         const { newslatterEmail } = data
         try {
             setloading(true)
-            const res = await axios.post('/api/set-newslatter-email',  {newslatterEmail} )
+            const res = await axiosInstance.post('/api/set-newslatter-email',  {newslatterEmail} )
             console.log('newslatter res: ', res)
 
             if (res.data.success) {

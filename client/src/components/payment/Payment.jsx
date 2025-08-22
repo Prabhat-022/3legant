@@ -1,6 +1,6 @@
 import StripeCheckout from 'react-stripe-checkout';
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ const Payment = () => {
       const headers = {
         'Content-Type': 'application/json'
       }
-      const res = await axios.post('/api/payment', body, { headers })
+      const res = await axiosInstance.post('/api/payment', body, { headers })
       const data = res.data
       console.log(data)
 

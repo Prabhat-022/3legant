@@ -250,13 +250,14 @@ const LayoutAdmin = () => {
 
   const handleLogout = () => {
     console.log("Logout clicked");
-    dispatch(logout());
+    dispatch(logout())
+    navigate('/login')
     // Replace with your actual logout logic
   };
 
   const bottomMenuItems = [
     { icon: Settings, label: 'Settings', path: '#' },
-    { icon: LogOut, label: 'Logout', path: '/login', onClick: handleLogout },
+    { icon: LogOut, label: 'Logout', path: '/login', },
   ]
   return (
 
@@ -477,8 +478,11 @@ const LayoutAdmin = () => {
               <button
                 key={index}
                 onClick={() => {
-                  navigate(item.path)
-                  console.log('Clicked:', item.label)
+                  if (item.label === 'Logout') {
+                    handleLogout()
+                  } else {
+                    navigate(item.path)
+                  }
                 }}
                 className={`group flex items-center justify-between w-full px-4 py-3 text-left rounded-xl font-medium transition-all duration-200 ${item.label === 'Logout'
                   ? 'text-red-600 hover:bg-red-50 hover:text-red-700'

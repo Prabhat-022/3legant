@@ -421,3 +421,22 @@ export const setnewslatterEmail = async (req, res) => {
         })
     }
 }
+
+//get all the user
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        res.status(200).json({
+            message: "Ok, All users fetched successfully",
+            success: true,
+            users
+        })
+    } catch (error) {
+        console.log("Error in get all users", error);
+        res.status(400).json({
+            message: "Error in get all users",
+            success: false,
+            error
+        })
+    }
+}

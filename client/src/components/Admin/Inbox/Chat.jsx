@@ -3,18 +3,20 @@ import {
   Search, MoreVertical, ArrowLeft, Paperclip, Smile, 
   Mic, Send, Phone, Video, Info, Check, CheckCheck 
 } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllUsers } from '../../../redux/UserSlice';
 
 const Chat = () => {
   // Sample user data
   const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', status: 'Online', lastSeen: '', unread: 0, avatar: 'JD', isOnline: true },
-    { id: 2, name: 'Jane Smith', status: 'Hey there! I am using WhatsApp', lastSeen: '2:45 PM', unread: 3, avatar: 'JS', isOnline: false },
-    { id: 3, name: 'Alice Johnson', status: 'Busy right now', lastSeen: '10:30 AM', unread: 0, avatar: 'AJ', isOnline: true },
-    { id: 4, name: 'Bob Williams', status: 'Available', lastSeen: 'Yesterday', unread: 1, avatar: 'BW', isOnline: true },
-    { id: 5, name: 'Emily Brown', status: 'At work', lastSeen: '12:22 PM', unread: 0, avatar: 'EB', isOnline: false },
-    { id: 6, name: 'Michael Davis', status: 'In a meeting', lastSeen: '11:05 AM', unread: 7, avatar: 'MD', isOnline: false },
-    { id: 7, name: 'Sarah Miller', status: 'Sleeping', lastSeen: 'Yesterday', unread: 0, avatar: 'SM', isOnline: false },
-    { id: 8, name: 'David Wilson', status: 'Online', lastSeen: '', unread: 0, avatar: 'DW', isOnline: true },
+    { id: 1, Fullname: 'John Doe', status: 'Online', lastSeen: '', unread: 0, avatar: 'JD', isOnline: true },
+    { id: 2, Fullname: 'Jane Smith', status: 'Hey there! I am using WhatsApp', lastSeen: '2:45 PM', unread: 3, avatar: 'JS', isOnline: false },
+    { id: 3, Fullname: 'Alice Johnson', status: 'Busy right now', lastSeen: '10:30 AM', unread: 0, avatar: 'AJ', isOnline: true },
+    { id: 4, Fullname: 'Bob Williams', status: 'Available', lastSeen: 'Yesterday', unread: 1, avatar: 'BW', isOnline: true },
+    { id: 5, Fullname: 'Emily Brown', status: 'At work', lastSeen: '12:22 PM', unread: 0, avatar: 'EB', isOnline: false },
+    { id: 6, Fullname: 'Michael Davis', status: 'In a meeting', lastSeen: '11:05 AM', unread: 7, avatar: 'MD', isOnline: false },
+    { id: 7, Fullname: 'Sarah Miller', status: 'Sleeping', lastSeen: 'Yesterday', unread: 0, avatar: 'SM', isOnline: false },
+    { id: 8, Fullname: 'David Wilson', status: 'Online', lastSeen: '', unread: 0, avatar: 'DW', isOnline: true },
   ]);
 
   // Sample messages
@@ -42,10 +44,16 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const messagesEndRef = useRef(null);
+  const dispatch = useDispatch();
 
+  const socket = useSelector((state) => state.socket?.socket);
+  const user = useSelector((state) => state.user?.user);
+  const allUsers = useSelector((state) => state.user?.allUsers);
+
+  // setUsers(allUsers)
   // Filter users based on search term
   const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user.Fullname.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Get messages for selected user
@@ -77,6 +85,12 @@ const Chat = () => {
       [selectedUser.id]: [...(prev[selectedUser.id] || []), newMsg]
     }));
 
+    socket.emit("sendMessage", {
+      sender: user._id,
+      receiver: selectedUser.id,
+      message: newMessage
+    });
+
     setNewMessage('');
 
     // Simulate reply after a delay
@@ -102,6 +116,11 @@ const Chat = () => {
       handleSendMessage();
     }
   };
+
+  //connect the user for chat 
+  useEffect(()=>{
+    dispatch(getAllUsers())
+  },[])
 
   return (
     <div className="flex h-[calc(100vh-5rem)] bg-gray-100 border">

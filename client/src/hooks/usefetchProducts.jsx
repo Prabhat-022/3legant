@@ -1,15 +1,15 @@
 
-import axios from 'axios'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { setProduct } from '../redux/ProductSlice'
+import axiosInstance from '../lib/axios'
 
 export const usefetchProducts = () => {
 
     const dispatch = useDispatch()
     const fetProducts = async () => {
         try {
-            const res = await axios.get('/api/products',
+            const res = await axiosInstance.get('/api/products',
                 {
                     headers: {
                         'Content-Type': 'application/json',

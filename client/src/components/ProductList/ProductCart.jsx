@@ -3,7 +3,7 @@ import { FaStar } from 'react-icons/fa6'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setSingleProduct } from '../../redux/ProductSlice';
-import axios from 'axios';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 
 const ProductCart = ({ product }) => {
@@ -24,7 +24,7 @@ const ProductCart = ({ product }) => {
         if (product) {
             try {
                 setLoading(true)
-                const res = await axios.post("/api/cart", { productId: product._id, quantity });
+                const res = await axiosInstance.post("/api/cart", { productId: product._id, quantity });
 
                 if (res.data.success) {
                     toast.success(res.data.message);

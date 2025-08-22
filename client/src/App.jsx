@@ -135,7 +135,7 @@ const router = createBrowserRouter([
         element: <AddNewProduct />
       },
       {
-        path: 'edit-product',
+        path: 'edit-product/:id',
         element: <EditExistingProduct />
       },
       {

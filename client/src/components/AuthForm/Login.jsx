@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../redux/UserSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { io } from "socket.io-client";
+import { setSocket } from '../../redux/SocketSlice'
 
 const Login = () => {
 
@@ -27,6 +29,11 @@ const Login = () => {
         if (user) {
             if (user.role === 'admin') {
                 navigate('/admin')
+
+                const socket = io("http://localhost:3000");
+                dispatch(setSocket(socket))
+                socket.emit("connection", user._id);
+
             }
             else if (user.role === 'user') {
                 navigate('/home')

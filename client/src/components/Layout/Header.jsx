@@ -10,7 +10,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import { addToCart, toggleStatusTab } from '../../redux/CartSlice';
 import { setInput } from '../../redux/UserSlice';
 import { IoCloseSharp } from "react-icons/io5";
-import axios from 'axios';
+import axiosInstance from '../../lib/axios';
 
 const Header = () => {
     const [search, setSearch] = useState(false)
@@ -30,7 +30,7 @@ const Header = () => {
         dispatch(toggleStatusTab());
 
         try {
-            const res = await axios.get("/api/cart", {
+            const res = await axiosInstance.get("/api/cart", {
                 headers: {
                     "Content-Type": "application/json",
                 },

@@ -3,7 +3,7 @@ import OrderSummary from './OrderSummary'
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
-import axios from "axios"
+import axiosInstance from "../../lib/axios"
 import toast from "react-hot-toast"
 import { useSelector } from "react-redux"
 
@@ -43,7 +43,7 @@ const CheckoutDetails = () => {
         console.log('data', data)
         try {
             setLoading(true)
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/update-user-info`, data)
+            const res = await axiosInstance.put(`/api/update-user-info`, data)
             console.log('Response:', res)
 
 

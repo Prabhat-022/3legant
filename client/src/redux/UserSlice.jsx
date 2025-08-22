@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import {axiosInstance} from '../lib/axios'
+import axiosInstance from '../lib/axios'
 import toast from 'react-hot-toast'
 
 // Retrieve user info and token from localStorage if available
@@ -8,6 +8,7 @@ const userFromStorage = localStorage.getItem("user") ? JSON.parse(localStorage.g
 
 const initialState = {
   user: userFromStorage,
+  allUsers: [],
   input: "",
   loading: false,
   error: null,
@@ -15,10 +16,10 @@ const initialState = {
 
 // Async thunk for user Login
 
-export const loginUser = createAsyncThunk("user/loginUser", async (userData, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk(`/user/loginUser`, async (userData, { rejectWithValue }) => {
   console.log('userData', userData);
   try {
-    const response = await axiosInstance.post('/api/login', userData);
+    const response = await axiosInstance.post(`/api/login`, userData);
     localStorage.setItem("user", JSON.stringify(response.data.user));
     localStorage.setItem("Token", response.data.token);
     toast.success(response.data.message)
@@ -32,9 +33,9 @@ export const loginUser = createAsyncThunk("user/loginUser", async (userData, { r
 
 // Async thunk for user Register
 
-export const registerUser = createAsyncThunk("user/registerUser", async (userData, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk(`/user/registerUser`, async (userData, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.post('/api/register', userData,
+    const response = await axiosInstance.post(`/api/register`, userData,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -93,6 +94,24 @@ export const updateUserProfileInfo = createAsyncThunk("user/updateUserProfileInf
     localStorage.setItem("user", JSON.stringify(response.data.user));
     toast.success(response.data.message)
     return response.data.user;
+  } catch (error) {
+    toast.error(error.response.data.message)
+    return rejectWithValue(error.response.data);
+  }
+})
+
+//get all the users 
+export const getAllUsers = createAsyncThunk("user/getAllUsers", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.get('/api/get-all-users',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('Token')}`,
+        },
+      }
+    );
+    return response.data.users;
   } catch (error) {
     toast.error(error.response.data.message)
     return rejectWithValue(error.response.data);
@@ -169,6 +188,21 @@ export const UserSlice = createSlice({
       state.error = false;
     })
     builder.addCase(updateUserProfileInfo.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+
+    //get all the users 
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.allUsers = action.payload;
+      state.error = false;
+    })
+    builder.addCase(getAllUsers.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })
