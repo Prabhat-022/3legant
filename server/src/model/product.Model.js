@@ -65,7 +65,14 @@ const productSchema = new mongoose.Schema({
     },
     stock: {
         type: Number
+    },
+    badge: {
+        type: String,
+        enum: ['New', 'Best Seller', 'Hot', 'Sale', 'Premium', 'Deal'],
+        default: 'New'
     }
+
+
 
 
 })

@@ -1,10 +1,9 @@
 
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { setProduct } from '../redux/ProductSlice'
 import axiosInstance from '../lib/axios'
 
-export const usefetchProducts = () => {
+export const UsefetchProducts = () => {
 
     const dispatch = useDispatch()
     const fetProducts = async () => {
