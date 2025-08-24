@@ -13,7 +13,7 @@ router.route('/products/:id').get(getSingleProduct);
 router.route("/product").post(
     upload.array('image', 10), authenticate, isAdmin, addNewProducts)
 //these routes is not working 
-router.route('/products/:id').put(authenticate, isAdmin, updateProducts);
-router.route('/products/:id').delete(authenticate, isAdmin, deleteProducts);
+router.route('/product/:id').put(authenticate, isAdmin, updateProducts);
+router.route('/product/:id').delete(authenticate, isAdmin, deleteProducts);
 
 export default router;

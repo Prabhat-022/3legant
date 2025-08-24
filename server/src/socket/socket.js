@@ -1,12 +1,18 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(cookieParser())
+app.use(morgan('dev'));
 
 // ✅ Create HTTP server
 const server = http.createServer(app);

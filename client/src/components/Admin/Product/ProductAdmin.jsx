@@ -5,8 +5,9 @@ import { useSelector } from "react-redux"
 import Card from "./card"
 
 const ProductAdmin = () => {
-  const product = useSelector((state) => state.product.product)
-  console.log('product:', product)
+  const { product } = useSelector((state) => state?.product.product);
+  const {user} = useSelector((state) => state?.user);
+  const admin_product = product.filter((item) => item.user === user._id);
 
   return (
     <>
@@ -20,7 +21,7 @@ const ProductAdmin = () => {
 
         <div className="flex flex-wrap gap-3 ">
           {
-            product?.map((item) => (
+            admin_product?.map((item) => (
               <Card product={item} key={item._id} />
             ))
           }

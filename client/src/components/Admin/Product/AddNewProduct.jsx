@@ -203,15 +203,13 @@
 import { useState } from "react";
 import { Upload, Plus, Minus, Image, Star, Package, Tag, Info, DollarSign, Palette, Ruler } from "lucide-react";
 import axiosInstance from "../../../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 const AddNewProduct = () => {
     const [qty, setQty] = useState(1);
     const [dragActive, setDragActive] = useState(false);
     const [uploadedImages, setUploadedImages] = useState([]);
-
- 
-
-
+    const navigate = useNavigate();
 
     const [newProduct, setNewProduct] = useState({
         title: "",
@@ -307,6 +305,11 @@ const AddNewProduct = () => {
             })
 
             console.log(res.data)
+
+            if (res.data.success) {
+                navigate('/admin/product')
+            }
+
 
         }
         catch (error) {

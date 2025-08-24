@@ -41,7 +41,7 @@ export const getSingleProduct = async (req, res) => {
         const product = await Product.findById(id);
 
         if (!product) {
-           return  res.status(400).json({
+            return res.status(400).json({
                 message: "-> Not found any products ",
                 success: false,
 
@@ -87,7 +87,7 @@ export const addNewProducts = async (req, res) => {
         })
 
         if (product) {
-          return  res.status(400).json({
+            return res.status(400).json({
                 message: "->This product is already exist",
                 success: false,
 
@@ -152,68 +152,19 @@ export const addNewProducts = async (req, res) => {
 // update existing product 
 
 
-// export const updateProducts = async (req, res) => {
-
-//     try {
-//         const { id } = req.params
-//         const user = req.user.userId;
-
-//         console.log('user', user)
-//         console.log('id', id)
-
-//         const product = await Product.findOneAndUpdate()
-
-//         const { title, description, price, discountPrice, color, addtionalDetails } = req.body;
-
-//         // Validate ObjectId
-//         if (!mongoose.Types.ObjectId.isValid(id)) {
-//             return res.status(400).json({
-//                 message: "-> Invalid product ID",
-//                 success: false
-//             });
-//         }
-
-//         // Check if the product exists
-//         if (!product) {
-//             return res.status(404).json({
-//                 message: "-> This product does not exist",
-//                 success: false
-//             });
-//         }
-
-//         // Update the product
-//         const updatedProduct = await Product.findByIdAndUpdate(
-//             id, 
-//             { title, description, price, discountPrice, color, addtionalDetails },
-//             { new: true }
-//         );
-
-//         res.status(200).json({
-//             message: "-> Wow, Product updated successfully",
-//             success: true,
-//             updatedProduct
-//         });
-
-//     } catch (error) {
-//         console.error("Can't update the products", error);
-
-//         res.status(500).json({
-//             message: "-> Product not updated",
-//             success: false,
-//             error: error.message
-//         });
-//     }
-// };
-
 export const updateProducts = async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.user.userId;
+        const userId = req.user?.userId;
 
-        console.log('user', userId)
-        console.log('id', id)
+        console.log('\n--- Update Product Request ---');
+        console.log('User ID:', userId);
+        console.log('Product ID:', id);
+        console.log('Request Body:', req.body);
+        console.log('Files:', req.files);
+        console.log('-----------------------------\n');
 
-        // Validate ObjectId first
+        // Validate ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
                 message: "Invalid product ID",
@@ -221,12 +172,29 @@ export const updateProducts = async (req, res) => {
             });
         }
 
-        const { title, description, price, discountPrice, color, additionalDetails } = req.body;
+        // Get form data
+        const { title, description, price, discountPrice, color, additionalDetails, categories, size, rating } = req.body;
+
+        // Basic validation
+        // if (!title || !description || !price || !discountPrice || !color || !additionalDetails) {
+        //     return res.status(400).json({
+        //         message: "Please fill all the required details",
+        //         success: false,
+        //         missingFields: {
+        //             title: !title,
+        //             description: !description,
+        //             price: !price,
+        //             discountPrice: !discountPrice,
+        //             color: !color,
+        //             additionalDetails: !additionalDetails
+        //         }
+        //     });
+        // }
 
         // Check if the product exists and belongs to the user
-        const existingProduct = await Product.findOne({ 
-            _id: id, 
-            user: userId // Assuming products have a user field referencing the owner
+        const existingProduct = await Product.findOne({
+            _id: id,
+            user: userId
         });
 
         if (!existingProduct) {
@@ -236,24 +204,51 @@ export const updateProducts = async (req, res) => {
             });
         }
 
-        // Prepare update object with only provided fields
-        const updateData = {};
-        if (title !== undefined) updateData.title = title;
-        if (description !== undefined) updateData.description = description;
-        if (price !== undefined) updateData.price = price;
-        if (discountPrice !== undefined) updateData.discountPrice = discountPrice;
-        if (color !== undefined) updateData.color = color;
-        if (additionalDetails !== undefined) updateData.additionalDetails = additionalDetails;
+        // Handle file uploads if any
+        let imageUpdates = [];
+        if (req.files && req.files.length > 0) {
+            // Upload new images to Cloudinary
+            const uploadPromises = req.files.map(file =>
+                uploadOnCloudinary(file.path).catch(err => {
+                    console.error('Error uploading image to Cloudinary:', err);
+                    return null;
+                })
+            );
 
-        // Update the product
+            const uploadResults = await Promise.all(uploadPromises);
+            imageUpdates = uploadResults
+                .filter(result => result !== null)
+                .map(img => ({ url: img.secure_url, public_id: img.public_id }));
+        }
+
+        // prepare update data safely
+        const updateData = {};
+        if (title) updateData.title = title;
+        if (description) updateData.description = description;
+        if (price) updateData.price = price;
+        if (discountPrice) updateData.discountPrice = discountPrice;
+        if (color) updateData.color = color;
+        if (additionalDetails) updateData.additionalDetails = additionalDetails;
+        if (categories) updateData.categories = categories;
+        if (size) updateData.size = size;
+        if (rating) updateData.rating = rating;
+        if (imageUpdates.length > 0) updateData.image = imageUpdates;
+
+        console.log('Updating with:', updateData);
+
         const updatedProduct = await Product.findByIdAndUpdate(
-            id, 
-            updateData,
-            { 
-                new: true, // Return the updated document
-                runValidators: true // Run model validations on update
-            }
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
         );
+
+
+        if (!updatedProduct) {
+            return res.status(404).json({
+                message: "Failed to update product",
+                success: false
+            });
+        }
 
         res.status(200).json({
             message: "Product updated successfully",
@@ -288,7 +283,6 @@ export const updateProducts = async (req, res) => {
         });
     }
 };
-
 
 
 // delete the  existing product 

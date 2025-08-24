@@ -18,12 +18,6 @@ const port = process.env.PORT || 4000;
 //connect to the database 
 connectDB();
 
-//middleware 
-
-app.use(cookieParser())
-app.use(bodyParser.json());
-app.use(morgan('dev'));
-
 
 const corsOptions = {
     origin: ["http://localhost:5173", "https://3legant-steel.vercel.app"],

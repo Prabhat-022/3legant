@@ -1,4 +1,3 @@
-
 // import { CiEdit } from "react-icons/ci";
 // import { BiSolidImageAdd } from "react-icons/bi";
 // import { FaCirclePlus } from "react-icons/fa6";
@@ -204,7 +203,7 @@
 
 import { useState } from "react";
 import { Upload, Plus, Minus, Image, Star, Package, Tag, Info, DollarSign, Palette, Ruler } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../lib/axios";
 
 const EditExistingProduct = () => {
@@ -212,6 +211,7 @@ const EditExistingProduct = () => {
     const [dragActive, setDragActive] = useState(false);
     const [uploadedImages, setUploadedImages] = useState([]);
 
+    const navigate = useNavigate();
     const location = useLocation();
     const { state } = location;
     const { product } = state || {};
@@ -284,6 +284,7 @@ const EditExistingProduct = () => {
         setUploadedImages(newImages);
     };
 
+
     const handleUpdateProduct = async (e) => {
         e.preventDefault();
 
@@ -291,6 +292,7 @@ const EditExistingProduct = () => {
 
         // Append all product data
         Object.keys(newProduct).forEach(key => {
+
             if (key === 'image') {
                 for (let i = 0; i < newProduct.image.length; i++) {
                     formData.append('image', newProduct.image[i]);
@@ -300,8 +302,14 @@ const EditExistingProduct = () => {
             }
         });
 
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+
+
         try {
-            const res = await axiosInstance.put(`/api/products/${product._id}`, formData, {
+            const res = await axiosInstance.put(`/api/product/${product._id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -310,9 +318,14 @@ const EditExistingProduct = () => {
 
             console.log(res.data)
 
+            if (res.data.success) {
+                navigate('/admin/product')
+            }
+
+
         }
         catch (error) {
-            console.log('Product not updated', error)
+            console.log('Product not created', error)
         }
     };
 
@@ -344,8 +357,8 @@ const EditExistingProduct = () => {
                             {/* File Upload Area */}
                             <div
                                 className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${dragActive
-                                        ? 'border-blue-500 bg-blue-50'
-                                        : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
+                                    ? 'border-blue-500 bg-blue-50'
+                                    : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
                                     }`}
                                 onDragEnter={handleDrag}
                                 onDragLeave={handleDrag}

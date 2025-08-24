@@ -5,12 +5,13 @@ import { FaChevronLeft, FaChevronRight, FaRegHeart, FaStar, FaRegStar, FaEdit } 
 import { Link, useNavigate } from 'react-router-dom';
 
 const Card = ({ product }) => {
+
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
+
   const handleEditProduct = () => {
-    console.log('Clicked product:', product);
     navigate(`/admin/edit-product/${product._id}`, { state: { product } });
   };
 
@@ -56,13 +57,13 @@ const Card = ({ product }) => {
       {/* Image Section */}
       <div className="relative h-56 w-[200px] overflow-hidden">
         <img 
-          src={product.image[currentImageIndex].url} 
-          alt={product.title} 
+          src={product?.image[currentImageIndex]?.url} 
+          alt={product?.title} 
           className=" object-cover transition-transform duration-500 ease-in-out hover:scale-105 w-[200px] h-[200px]" 
         />
         
         {/* Image Navigation Arrows */}
-        {product.image.length > 1 && (
+        {product?.image.length > 1 && (
           <>
             <button 
               onClick={handlePreviousImage}
